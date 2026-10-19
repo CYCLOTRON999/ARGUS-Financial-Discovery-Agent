@@ -69,15 +69,8 @@ streamlit run streamlit_app.py
 3. Main file path: `streamlit_app.py`.
 4. Click **Deploy!**
 
-### 2. View the Standalone HTML Dashboard
-Open the standalone interactive dashboard with all 8 selectable profiles in your browser:
-
-```bash
-open dashboard.html
-```
-
-### 3. Run an Autonomous Investigation for Any Ticker
-Run the generic pipeline on any NIFTY 50 or non-NIFTY 50 stock:
+### 2. Run an Autonomous Investigation for Any Ticker
+Run the generic pipeline via CLI on any NIFTY 50 or non-NIFTY 50 stock:
 
 ```bash
 # Core Track C FMCG:
@@ -122,7 +115,6 @@ python3 server.py
 
 ## Deliverables
 * **Submission Pitch PDF:** `WhoCares_TrackC_Round1.pdf`
-* **Streamlit Web Application:** `streamlit_app.py` & `requirements.txt`
-* **Interactive Dashboard:** `dashboard.html`
+* **Interactive Streamlit Web Application:** [Live on Streamlit Cloud](https://cyclotron999-argus-financial-discovery-age-streamlit-app-jevfn2.streamlit.app) (`streamlit_app.py`)
 * **Primary Python Agent:** `main.py`, `investigator.py`, `harvester.py`, `calculator.py`
 

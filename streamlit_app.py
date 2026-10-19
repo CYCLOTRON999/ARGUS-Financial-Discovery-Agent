@@ -398,9 +398,8 @@ if report:
     """, unsafe_allow_html=True)
     
     # Main Tabs
-    tab_discovery, tab_dashboard, tab_submission, tab_export = st.tabs([
+    tab_discovery, tab_submission, tab_export = st.tabs([
         "🔍 Verified Discovery (8 Elements)",
-        "🖥️ Standalone HTML Dashboard",
         "📄 Round 1 Submission Pitch (2 Pages)",
         "💾 Export Data & Memo"
     ])
@@ -421,23 +420,19 @@ if report:
         dso_str = f"{dso:.1f} days"
         dio_str = f"{dio:.1f} days"
         
-        st.markdown(f"""
-        <div class="discovery-box">
-            <div style="font-size: 16px; font-weight: 700; color: #6ee7b7; margin-bottom: 6px;">Finding:</div>
-            <div style="margin-bottom: 14px;">{discovery_text}</div>
-            
-            <div style="border-top: 1px solid rgba(16, 185, 129, 0.35); padding-top: 12px;">
-                <div style="font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
-                    Key Quantified Metrics (Scan Before Reading):
-                </div>
-                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <div class="number-badge">📈 Revenue Growth: <strong>{growth_str}</strong></div>
-                    <div class="number-badge">⏱️ DSO: <strong>{dso_str}</strong></div>
-                    <div class="number-badge">📦 Inventory: <strong>{dio_str}</strong></div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        discovery_html = f"""<div class="discovery-box">
+<div style="font-size: 16px; font-weight: 700; color: #6ee7b7; margin-bottom: 6px;">Finding:</div>
+<div style="margin-bottom: 14px; font-size: 15px; line-height: 1.6; color: #ffffff;">{discovery_text}</div>
+<div style="border-top: 1px solid rgba(16, 185, 129, 0.35); padding-top: 12px;">
+<div style="font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Key Quantified Metrics (Scan Before Reading):</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+<div class="number-badge">📈 Revenue Growth: <strong>{growth_str}</strong></div>
+<div class="number-badge">⏱️ DSO: <strong>{dso_str}</strong></div>
+<div class="number-badge">📦 Inventory: <strong>{dio_str}</strong></div>
+</div>
+</div>
+</div>"""
+        st.markdown(discovery_html, unsafe_allow_html=True)
         
         # -------------------------------------------------------------
         # Element 2: Why It Matters with Bullet Icons (Matches Image 4)
@@ -574,17 +569,6 @@ if report:
                 </div>
                 """, unsafe_allow_html=True)
 
-    with tab_dashboard:
-        st.markdown("#### Embedded Interactive Dashboard View")
-        st.caption("Full responsive dashboard featuring inline SVG visuals, real-time calculations, and one-click Executive Memo printing.")
-        
-        dashboard_path = os.path.join(os.path.dirname(__file__), "dashboard.html")
-        if os.path.exists(dashboard_path):
-            with open(dashboard_path, "r", encoding="utf-8") as f:
-                dashboard_html = f.read()
-            st.components.v1.html(dashboard_html, height=1000, scrolling=True)
-        else:
-            st.warning("`dashboard.html` not found.")
 
     with tab_submission:
         st.markdown("#### Round 1 Submission Pitch (2-Page PDF)")
