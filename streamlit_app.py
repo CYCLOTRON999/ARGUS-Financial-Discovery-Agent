@@ -824,6 +824,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🔗 Links")
     st.markdown("""
+    - [🌐 Live Cloud Dashboard](https://cyclotron999-argus-financial-discovery-age-streamlit-app-jevfn2.streamlit.app/)
     - [GitHub Code Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent)
     - [2-Minute Demo Video](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
     - [PDF Submission Pitch](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent/blob/main/WhoCares_TrackC_Round1.pdf)

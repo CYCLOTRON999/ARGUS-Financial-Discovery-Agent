@@ -1,7 +1,7 @@
 # ARGUS: Autonomous Financial Discovery Agent
 **Track C — Consumer, FMCG & Retail**  
 **Round 1 Solution Pitch & Architecture** | Team: Who cares  
-**Deliverables:** [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) | [2-Minute Demo Video](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
+**Deliverables:** [🌐 Live Streamlit Dashboard](https://cyclotron999-argus-financial-discovery-age-streamlit-app-jevfn2.streamlit.app/) | [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) | [2-Minute Demo Video](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
 
 > **"ARGUS autonomously investigates public filings, tests competing explanations, and produces auditable financial discoveries."**
 
