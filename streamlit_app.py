@@ -23,7 +23,7 @@ st.markdown("""
     
     .main-header {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        color: white;
+        color: #ffffff !important;
         padding: 24px;
         border-radius: 12px;
         margin-bottom: 24px;
@@ -31,10 +31,10 @@ st.markdown("""
     }
     .track-tag {
         background: #0284c7;
-        color: white;
+        color: #ffffff !important;
         font-size: 11px;
         font-weight: 700;
-        padding: 3px 10px;
+        padding: 4px 12px;
         border-radius: 9999px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -42,60 +42,81 @@ st.markdown("""
         margin-bottom: 8px;
     }
     .discovery-box {
-        background: #f0fdf4;
-        border-left: 5px solid #16a34a;
-        padding: 16px 20px;
+        background: #062b1f !important;
+        border: 1px solid #047857 !important;
+        border-left: 6px solid #10b981 !important;
+        padding: 18px 22px;
         border-radius: 8px;
         margin: 16px 0;
-        font-size: 15px;
-        line-height: 1.5;
-        color: #14532d;
+        font-size: 15.5px;
+        line-height: 1.65;
+        color: #ecfdf5 !important;
+    }
+    .discovery-box strong {
+        color: #6ee7b7 !important;
+        font-size: 16px;
     }
     .metric-card {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: #1e293b !important;
+        border: 1px solid #334155 !important;
         border-radius: 8px;
-        padding: 14px;
+        padding: 16px;
         text-align: center;
+        color: #f8fafc !important;
     }
     .metric-value {
         font-size: 24px;
         font-weight: 800;
-        color: #0f172a;
+        color: #ffffff !important;
     }
     .metric-label {
         font-size: 11px;
         font-weight: 600;
-        color: #64748b;
+        color: #94a3b8 !important;
         text-transform: uppercase;
         margin-top: 4px;
     }
     .counter-box {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        border-left: 4px solid #ef4444;
-        padding: 14px;
-        border-radius: 6px;
+        background: #2a1215 !important;
+        border: 1px solid #7f1d1d !important;
+        border-left: 5px solid #ef4444 !important;
+        padding: 18px 20px;
+        border-radius: 8px;
         margin-bottom: 12px;
+        color: #fecdd3 !important;
+        font-size: 14.5px;
+        line-height: 1.6;
+    }
+    .counter-box strong {
+        color: #fda4af !important;
+        font-size: 15px;
+        display: inline-block;
+        margin-bottom: 6px;
     }
     .falsify-box {
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        border-left: 4px solid #22c55e;
-        padding: 14px;
-        border-radius: 6px;
+        background: #0f291e !important;
+        border: 1px solid #166534 !important;
+        border-left: 5px solid #22c55e !important;
+        padding: 18px 20px;
+        border-radius: 8px;
         margin-bottom: 12px;
+        color: #dcfce7 !important;
+        font-size: 14.5px;
+        line-height: 1.6;
+    }
+    .falsify-box strong {
+        color: #86efac !important;
+        font-size: 15px;
+        display: inline-block;
+        margin-bottom: 6px;
     }
     .evidence-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
+        background: #1e293b !important;
+        border: 1px solid #334155 !important;
         border-radius: 8px;
         padding: 14px;
         margin-bottom: 12px;
-        transition: transform 0.1s ease;
-    }
-    .evidence-card:hover {
-        border-color: #0284c7;
+        color: #f8fafc !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -234,15 +255,19 @@ if report:
     b_model = report.get("business_model", "Consumer Company")
     strength = report.get("element_8_evidence_strength", {}).get("rating", "Moderate")
     
+    badge_bg = "#064e3b" if strength.lower() == "strong" else "#78350f"
+    badge_border = "#10b981" if strength.lower() == "strong" else "#f59e0b"
+    badge_color = "#6ee7b7" if strength.lower() == "strong" else "#fde68a"
+    
     # Meta header bar
     st.markdown(f"""
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px; margin-bottom: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid rgba(148, 163, 184, 0.25); padding-bottom: 12px; margin-top: 14px; margin-bottom: 20px;">
         <div>
-            <h2 style="margin: 0; font-size: 22px; font-weight: 800; color: #0f172a;">{company_name} ({ticker})</h2>
-            <span style="font-size: 13px; color: #64748b; font-weight: 600;">Model: {b_model} &bull; Output: 8-Element Discovery Schema</span>
+            <h2 style="margin: 0; font-size: 26px; font-weight: 800; color: #ffffff !important; letter-spacing: -0.01em;">{company_name} <span style="color: #38bdf8;">({ticker})</span></h2>
+            <span style="font-size: 13.5px; color: #94a3b8 !important; font-weight: 600;">Model: <strong style="color: #e2e8f0;">{b_model}</strong> &bull; Output: 8-Element Discovery Schema</span>
         </div>
         <div>
-            <span style="background: {'#dcfce7' if strength == 'Strong' else '#fef3c7'}; color: {'#166534' if strength == 'Strong' else '#92400e'}; padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 700;">
+            <span style="background: {badge_bg}; border: 1px solid {badge_border}; color: {badge_color} !important; padding: 5px 14px; border-radius: 9999px; font-size: 12px; font-weight: 800; letter-spacing: 0.03em;">
                 Evidence Strength: {strength.upper()}
             </span>
         </div>
@@ -386,9 +411,9 @@ if report:
             with c:
                 st.markdown(f"""
                 <div class="metric-card">
-                    <div style="font-size: 13px; font-weight: 700; color: #0284c7;">{title}</div>
-                    <div style="font-size: 11px; font-weight: 700; color: #1e293b; margin: 4px 0;">{data.get('score', 'Pass')}</div>
-                    <div style="font-size: 10px; color: #64748b; line-height: 1.3;">{data.get('detail', '')}</div>
+                    <div style="font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em;">{title}</div>
+                    <div style="font-size: 13px; font-weight: 700; color: #ffffff !important; margin: 6px 0;">{data.get('score', 'Pass')}</div>
+                    <div style="font-size: 11.5px; color: #cbd5e1 !important; line-height: 1.45;">{data.get('detail', '')}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
