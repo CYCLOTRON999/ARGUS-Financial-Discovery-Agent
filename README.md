@@ -51,14 +51,28 @@ cd ARGUS-Financial-Discovery-Agent
 pip install requests
 ```
 
-### 1. View the Multi-Company Dashboard
-Open the pre-generated interactive dashboard with all 8 selectable profiles in your browser:
+### 1. Run the Interactive Streamlit Web App (Local or Cloud)
+Launch the Streamlit app locally:
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+#### ☁️ 1-Click Streamlit Cloud Deployment:
+1. Go to [share.streamlit.io](https://share.streamlit.io/).
+2. Select repository: `CYCLOTRON999/ARGUS-Financial-Discovery-Agent`.
+3. Main file path: `streamlit_app.py`.
+4. Click **Deploy!**
+
+### 2. View the Standalone HTML Dashboard
+Open the standalone interactive dashboard with all 8 selectable profiles in your browser:
 
 ```bash
 open dashboard.html
 ```
 
-### 2. Run an Autonomous Investigation for Any Ticker
+### 3. Run an Autonomous Investigation for Any Ticker
 Run the generic pipeline on any NIFTY 50 or non-NIFTY 50 stock:
 
 ```bash
@@ -79,7 +93,7 @@ python3 main.py V2RETAIL
 python3 main.py BIKAJI
 ```
 
-### 3. Launch the Live Interactive Judge Server (Optional)
+### 4. Launch the Zero-Dependency Judge Server (Optional)
 To investigate any company live on the spot from the web interface:
 
 ```bash
@@ -104,5 +118,7 @@ python3 server.py
 
 ## Deliverables
 * **Submission Pitch PDF:** `WhoCares_TrackC_Round1.pdf`
+* **Streamlit Web Application:** `streamlit_app.py` & `requirements.txt`
 * **Interactive Dashboard:** `dashboard.html`
 * **Primary Python Agent:** `main.py`, `investigator.py`, `harvester.py`, `calculator.py`
+
