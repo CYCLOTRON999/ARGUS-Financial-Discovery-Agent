@@ -2,13 +2,17 @@
 **Track C — Consumer, FMCG & Retail**  
 **Team: Who cares** | **Deliverables:** [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) &bull; [2-Minute Demo Video](https://www.loom.com/share/argus-financial-agent-demo)
 
+> **"ARGUS autonomously investigates public filings, tests competing explanations, and produces auditable financial discoveries."**
+
 ARGUS is an autonomous financial research agent that uncovers non-obvious, evidence-backed financial discoveries across Indian Consumer, FMCG, and Retail companies. It replaces passive AI summarizers with an active investigative workflow that cross-checks corporate narratives against audited financial realities and sector benchmarks.
 
 ---
 
 ## Key Capabilities
 
-* **Interactive Research Dashboard:** Single-screen dashboard with inline SVG trend charts, metric cards, and auditable primary document ledger.
+* **Live Investigation Pipeline:** Interactive 4-stage pipeline execution (`🔍 Collect filings` &rarr; `🧮 Calculate metrics` &rarr; `🛡️ Cross-check` &rarr; `✨ Publish discovery`) with real-time status feedback demonstrating active autonomy.
+* **Autonomy Proof Metrics Table:** Displays verification fields for every ticker investigated (`Company`, `Sector Model`, `Quarters Loaded: 13`, `Sources Found: 27`).
+* **Interactive Research Dashboard:** Single-screen dashboard with prominent quantified number badges, inline SVG trend charts, metric cards, and auditable primary document ledger.
 * **8 Selectable Company Profiles:**
   * **Core Track C (6 Companies):** Hindustan Unilever (`HINDUNILVR`), Britannia (`BRITANNIA`), Tata Consumer (`TATACONSUM`), Nestle India (`NESTLEIND`), Dabur (`DABUR`), Trent (`TRENT`).
   * **Broader Consumer-Retail (2 Companies):** Titan Company (`TITAN`), Asian Paints (`ASIANPAINT`).

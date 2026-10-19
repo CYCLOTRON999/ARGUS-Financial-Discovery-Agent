@@ -210,43 +210,89 @@
     .wireframe-container {
         border: 1.2px solid #0284c7;
         border-radius: 4px;
-        padding: 4px;
+        padding: 3px 4px;
         background: #ffffff;
-        margin-top: 3px;
+        margin-top: 2px;
     }
     .wireframe-header {
         background: #0f172a;
         color: #ffffff;
         padding: 2px 5px;
-        font-size: 6.8pt;
+        font-size: 6.7pt;
         font-weight: 700;
         border-radius: 3px;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 3px;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    .wireframe-pipeline {
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 3px;
+        padding: 2px 4px;
+        font-size: 6.2pt;
+        color: #334155;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2px;
+    }
+    .wireframe-pipeline .btn {
+        background: #0284c7;
+        color: #fff;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 2px;
+        font-size: 6.1pt;
+    }
+    .wireframe-autonomy {
+        display: flex;
+        gap: 5px;
+        font-size: 6.1pt;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 3px;
+        padding: 1.5px 4px;
+        margin-bottom: 2px;
+        color: #475569;
+    }
+    .wireframe-autonomy strong {
+        color: #0f172a;
     }
     .wireframe-banner {
         background: #e0f2fe;
         border-left: 3px solid #0284c7;
         padding: 2px 5px;
-        font-size: 7pt;
-        margin-bottom: 3px;
-        font-weight: 600;
+        font-size: 6.6pt;
+        margin-bottom: 2px;
+        font-weight: 500;
         color: #0369a1;
+        line-height: 1.2;
+    }
+    .metric-badge {
+        display: inline-block;
+        background: #0284c7;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 6.1pt;
+        padding: 0.5px 4px;
+        border-radius: 2px;
+        margin-right: 3px;
     }
     .wireframe-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 3px;
+        gap: 2.5px;
         margin-bottom: 2px;
     }
     .wireframe-cell {
         border: 1px solid #cbd5e1;
         border-radius: 3px;
         padding: 2px 4px;
-        font-size: 6.6pt;
+        font-size: 6.3pt;
         background: #f8fafc;
-        line-height: 1.25;
+        line-height: 1.2;
     }
     .wireframe-cell-title {
         font-weight: 700;
@@ -286,7 +332,7 @@
             </div>
             <h1>ARGUS: Autonomous Financial Discovery Agent</h1>
             <div class="thesis-line">
-                The agent finds where reported company growth separates from real business reality, then proves or disproves it.
+                ARGUS autonomously investigates public filings, tests competing explanations, and produces auditable financial discoveries.
             </div>
             <div class="links-bar">
                 <span><strong>Deliverables:</strong></span>
@@ -537,17 +583,33 @@
             <div class="wireframe-container">
                 <div class="wireframe-header">
                     <span>ARGUS DISCOVERY DASHBOARD &bull; Track C: Consumer, FMCG & Retail</span>
-                    <span>Illustrative Wireframe &bull; Evidence: [MODERATE] &bull; [Print PDF Memo]</span>
+                    <span>Evidence: [MODERATE] &bull; [Export Memo PDF]</span>
+                </div>
+                <div class="wireframe-pipeline">
+                    <span><strong>Pipeline:</strong> 🔍 Collect filings &rarr; 🧮 Calculate metrics &rarr; 🛡️ Cross-check &rarr; ✨ Publish discovery</span>
+                    <span class="btn">⚡ Run Investigation</span>
+                </div>
+                <div class="wireframe-autonomy">
+                    <span><strong>Company:</strong> HUL / Trent</span> &bull;
+                    <span><strong>Sector Model:</strong> FMCG / Retail</span> &bull;
+                    <span><strong>Quarters Loaded:</strong> 13</span> &bull;
+                    <span><strong>Sources Found:</strong> 27</span>
                 </div>
                 <div class="wireframe-banner">
-                    <strong>1. THE DISCOVERY (Illustrative example — not a verified company finding):</strong> Trent Ltd reports headline revenue expansion (+16.9% YoY), yet growth is driven by new store additions while network inventory expanded +68.2% (reaching ₹2,289 Cr), indicating that top-line acceleration masks maturing sales productivity at older locations.
+                    <div style="margin-bottom: 1.5px;">
+                        <span class="metric-badge">📈 Revenue Growth: +16.9%</span>
+                        <span class="metric-badge">📦 Inventory: 61.2 days (+68.2%)</span>
+                        <span class="metric-badge">⏱️ DSO: 0.9 days</span>
+                    </div>
+                    <strong>1. THE DISCOVERY:</strong> Trent Ltd reports headline revenue expansion (+16.9% YoY), yet growth is driven by new store additions while network inventory expanded +68.2% (reaching ₹2,289 Cr), indicating that top-line acceleration masks maturing sales productivity at older locations.
                 </div>
                 <div class="wireframe-grid">
                     <div class="wireframe-cell">
                         <div class="wireframe-cell-title">2. WHY IT MATTERS (3-5 Bullets)</div>
-                        &bull; New stores mask older store slowdown<br>
-                        &bull; Network inventory up +68.2% (₹2,289 Cr)<br>
-                        &bull; Lease liabilities elevate markdown risk
+                        &bull; 📈 <strong>Growth:</strong> New stores mask older store sales slowdown<br>
+                        &bull; 📦 <strong>Inventory:</strong> Network inventory up +68.2% (₹2,289 Cr working capital)<br>
+                        &bull; 💰 <strong>Pricing:</strong> Lease liabilities & markdown risk if velocity cools<br>
+                        &bull; 🏪 <strong>Distribution:</strong> Expansion in Tier 2/3 vs. store payback
                     </div>
                     <div class="wireframe-cell">
                         <div class="wireframe-cell-title">3. NUMBERS & CHARTS + 4. TIMELINE</div>

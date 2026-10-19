@@ -3,6 +3,8 @@
 **Round 1 Solution Pitch & Architecture** | Team: [Your Team Name]  
 **Deliverables:** [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) | [2-Minute Loom Demo Video](https://www.loom.com/share/argus-financial-agent-demo)
 
+> **"ARGUS autonomously investigates public filings, tests competing explanations, and produces auditable financial discoveries."**
+
 ---
 
 ## PAGE 1: THE BREAKTHROUGH, HOW IT THINKS, & SECTOR INTELLIGENCE
