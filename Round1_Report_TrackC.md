@@ -1,7 +1,7 @@
 # ARGUS: Autonomous Financial Discovery Agent
 **Track C — Consumer, FMCG & Retail**  
-**Round 1 Solution Pitch & Architecture** | Team: [Your Team Name]  
-**Deliverables:** [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) | [2-Minute Loom Demo Video](https://www.loom.com/share/argus-financial-agent-demo)
+**Round 1 Solution Pitch & Architecture** | Team: Who cares  
+**Deliverables:** [GitHub Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent) | [2-Minute Demo Video](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
 
 > **"ARGUS autonomously investigates public filings, tests competing explanations, and produces auditable financial discoveries."**
 
@@ -110,7 +110,7 @@ A core reason financial analysts make mistakes is confirmation bias—finding da
 * **Oct 19, 2026 (Today) — BUILT & TESTED:**  
   Automates source collection, deterministic calculations and evidence-based hypothesis testing, with explicit handling of missing or conflicting data. Full 8-element interactive dashboard with company selection, SVG trend visuals, and printable memo.
   * **GitHub Repository:** [https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent)
-  * **2-Minute Demo Video:** [https://www.loom.com/share/argus-financial-agent-demo](https://www.loom.com/share/argus-financial-agent-demo)
+  * **2-Minute Demo Video:** [https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
 
 * **Oct 20–21 — IN PROGRESS:**  
   Deeper concall parsing: Ingest full-text PDF concalls to extract direct speaker quotes and executive statements with high-speed local keyword search.

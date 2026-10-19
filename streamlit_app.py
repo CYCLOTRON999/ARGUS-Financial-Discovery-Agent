@@ -196,7 +196,7 @@ st.markdown("""
     </p>
     <div style="margin-top: 14px; font-size: 13px; display: flex; gap: 18px;">
         <a href="https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 600;">⭐ GitHub Repository</a>
-        <a href="https://www.loom.com/share/argus-financial-agent-demo" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 600;">🎥 2-Minute Demo Video</a>
+        <a href="https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing" target="_blank" style="color: #60a5fa; text-decoration: none; font-weight: 600;">🎥 2-Minute Demo Video</a>
         <span style="color: #94a3b8;">Round 1 Submission Package</span>
     </div>
 </div>
@@ -579,6 +579,7 @@ if report:
                     $$\\text{{Avg YoY Growth}} = \\frac{{1}}{{4}} \\sum_{{i=1}}^4 \\text{{YoY}}_i = \\frac{{{growth_terms}}}{{4}} = \\mathbf{{{avg_growth:+.1f}\\%}}$$
                     *Matches Element 1 Headline Metric Exactly.*
                     """)
+                    
                 with c_mth2:
                     if b_model == "Retail Chain":
                         st.markdown(f"""
@@ -824,6 +825,6 @@ with st.sidebar:
     st.markdown("### 🔗 Links")
     st.markdown("""
     - [GitHub Code Repository](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent)
-    - [2-Minute Loom Demo](https://www.loom.com/share/argus-financial-agent-demo)
+    - [2-Minute Demo Video](https://drive.google.com/file/d/10lt3R-c5_Bp3dLwjYmn5JHsBGtueg4HE/view?usp=sharing)
     - [PDF Submission Pitch](https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent/blob/main/WhoCares_TrackC_Round1.pdf)
     """)
