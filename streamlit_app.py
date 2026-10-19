@@ -353,6 +353,8 @@ if report:
     with c_btn:
         run_investigation = st.button("▶ Run Investigation Pipeline", key="run_investigation_btn", type="primary", use_container_width=True)
         
+    is_investigated = (st.session_state.get("investigated_ticker") == selected_ticker)
+    
     if run_investigation:
         with st.status(f"⚡ Autonomously researching {company_name}...", expanded=True) as status_box:
             st.write("🔍 **Phase 1: Collecting filings** — Scraping 13 quarters of audited P&L, balance sheets & BSE concall filings...")
@@ -363,260 +365,265 @@ if report:
             time.sleep(0.5)
             st.write("✨ **Phase 4: Publishing discovery** — Synthesizing 8-element auditable discovery report with measurable disproof rule.")
             status_box.update(label=f"✓ Investigation verified for {company_name}", state="complete", expanded=False)
-            
-    # Autonomy Proof Stats Bar (Matches Image 2 exactly)
-    st.markdown("##### ⚡ Autonomous Research Verification Metrics")
-    c_auto1, c_auto2, c_auto3, c_auto4 = st.columns(4)
-    with c_auto1:
-        st.metric("Company", short_comp)
-    with c_auto2:
-        st.metric("Sector Model", b_model)
-    with c_auto3:
-        q_count = report.get("element_3_numbers", {}).get("quarters_analyzed_count", 13)
-        st.metric("Quarters Loaded", f"{q_count}")
-    with c_auto4:
-        st.metric("Sources Found", "27")
-    st.caption("✓ Provenance: Scraped from public filings (Screener.in, BSE India) with zero pre-baked static text.")
-    
-    # Meta header bar
-    badge_bg = "#064e3b" if strength.lower() == "strong" else "#78350f"
-    badge_border = "#10b981" if strength.lower() == "strong" else "#f59e0b"
-    badge_color = "#6ee7b7" if strength.lower() == "strong" else "#fde68a"
-    
-    st.markdown(f"""
-    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid rgba(148, 163, 184, 0.25); padding-bottom: 12px; margin-top: 14px; margin-bottom: 20px;">
-        <div>
-            <h2 style="margin: 0; font-size: 26px; font-weight: 800; color: #ffffff !important; letter-spacing: -0.01em;">{company_name} <span style="color: #38bdf8;">({ticker})</span></h2>
-            <span style="font-size: 13.5px; color: #94a3b8 !important; font-weight: 600;">Model: <strong style="color: #e2e8f0;">{b_model}</strong> &bull; Output: 8-Element Discovery Schema</span>
+        st.session_state["investigated_ticker"] = selected_ticker
+        is_investigated = True
+        
+    if is_investigated:
+        # Autonomy Proof Stats Bar (Matches Image 2 exactly)
+        st.markdown("##### ⚡ Autonomous Research Verification Metrics")
+        c_auto1, c_auto2, c_auto3, c_auto4 = st.columns(4)
+        with c_auto1:
+            st.metric("Company", short_comp)
+        with c_auto2:
+            st.metric("Sector Model", b_model)
+        with c_auto3:
+            q_count = report.get("element_3_numbers", {}).get("quarters_analyzed_count", 13)
+            st.metric("Quarters Loaded", f"{q_count}")
+        with c_auto4:
+            st.metric("Sources Found", "27")
+        st.caption("✓ Provenance: Scraped from public filings (Screener.in, BSE India) with zero pre-baked static text.")
+
+        # Meta header bar
+        badge_bg = "#064e3b" if strength.lower() == "strong" else "#78350f"
+        badge_border = "#10b981" if strength.lower() == "strong" else "#f59e0b"
+        badge_color = "#6ee7b7" if strength.lower() == "strong" else "#fde68a"
+
+        st.markdown(f"""
+        <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid rgba(148, 163, 184, 0.25); padding-bottom: 12px; margin-top: 14px; margin-bottom: 20px;">
+            <div>
+                <h2 style="margin: 0; font-size: 26px; font-weight: 800; color: #ffffff !important; letter-spacing: -0.01em;">{company_name} <span style="color: #38bdf8;">({ticker})</span></h2>
+                <span style="font-size: 13.5px; color: #94a3b8 !important; font-weight: 600;">Model: <strong style="color: #e2e8f0;">{b_model}</strong> &bull; Output: 8-Element Discovery Schema</span>
+            </div>
+            <div>
+                <span style="background: {badge_bg}; border: 1px solid {badge_border}; color: {badge_color} !important; padding: 5px 14px; border-radius: 9999px; font-size: 12px; font-weight: 800; letter-spacing: 0.03em;">
+                    Evidence Strength: {strength.upper()}
+                </span>
+            </div>
         </div>
-        <div>
-            <span style="background: {badge_bg}; border: 1px solid {badge_border}; color: {badge_color} !important; padding: 5px 14px; border-radius: 9999px; font-size: 12px; font-weight: 800; letter-spacing: 0.03em;">
-                Evidence Strength: {strength.upper()}
-            </span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Main Tabs
-    tab_discovery, tab_submission, tab_export = st.tabs([
-        "🔍 Verified Discovery (8 Elements)",
-        "📄 Round 1 Submission Pitch (2 Pages)",
-        "💾 Export Data & Memo"
-    ])
-    
-    with tab_discovery:
-        # -------------------------------------------------------------
-        # Element 1: The Discovery with Highlighted Numbers (Matches Image 5)
-        # -------------------------------------------------------------
-        st.markdown("#### 1. The Discovery (Quantified Core Finding)")
-        discovery_text = report.get("element_1_the_discovery", "")
-        numbers = report.get("element_3_numbers", {})
-        
-        avg_growth = numbers.get("latest_4q_avg_sales_growth_pct", 0)
-        dso = numbers.get("dso_recent_days", 0)
-        dio = numbers.get("dio_recent_days", 0)
-        
-        growth_str = f"{avg_growth:+.1f}%"
-        dso_str = f"{dso:.1f} days"
-        dio_str = f"{dio:.1f} days"
-        
-        discovery_html = f"""<div class="discovery-box">
-<div style="font-size: 16px; font-weight: 700; color: #6ee7b7; margin-bottom: 6px;">Finding:</div>
-<div style="margin-bottom: 14px; font-size: 15px; line-height: 1.6; color: #ffffff;">{discovery_text}</div>
-<div style="border-top: 1px solid rgba(16, 185, 129, 0.35); padding-top: 12px;">
-<div style="font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Key Quantified Metrics (Scan Before Reading):</div>
-<div style="display: flex; gap: 12px; flex-wrap: wrap;">
-<div class="number-badge">📈 Revenue Growth: <strong>{growth_str}</strong></div>
-<div class="number-badge">⏱️ DSO: <strong>{dso_str}</strong></div>
-<div class="number-badge">📦 Inventory: <strong>{dio_str}</strong></div>
-</div>
-</div>
-</div>"""
-        st.markdown(discovery_html, unsafe_allow_html=True)
-        
-        # -------------------------------------------------------------
-        # Element 2: Why It Matters with Bullet Icons (Matches Image 4)
-        # -------------------------------------------------------------
-        st.markdown("#### 2. Why It Matters (Operational & Economic Durability)")
-        bullets = report.get("element_2_why_it_matters", [])
-        
-        # Map intuitive icons to each bullet as requested:
-        # • 📈 Growth
-        # • 📦 Inventory
-        # • 💰 Pricing
-        # • 🏪 Distribution
-        BULLET_ICONS = ["📈 Growth", "📦 Inventory", "💰 Pricing", "🏪 Distribution", "💵 Cash Flow"]
-        for idx, b in enumerate(bullets):
-            tag = BULLET_ICONS[idx % len(BULLET_ICONS)]
-            st.markdown(f"&bull; **{tag}:** {b}")
-            
-        st.markdown("---")
-        
-        # Element 3: The Numbers & Inline Chart
-        st.markdown("#### 3. Key Numbers & Deterministic Calculations")
-        numbers = report.get("element_3_numbers", {})
-        
-        m1, m2, m3, m4 = st.columns(4)
-        with m1:
+        """, unsafe_allow_html=True)
+
+        # Main Tabs
+        tab_discovery, tab_submission, tab_export = st.tabs([
+            "🔍 Verified Discovery (8 Elements)",
+            "📄 Round 1 Submission Pitch (2 Pages)",
+            "💾 Export Data & Memo"
+        ])
+
+        with tab_discovery:
+            # -------------------------------------------------------------
+            # Element 1: The Discovery with Highlighted Numbers (Matches Image 5)
+            # -------------------------------------------------------------
+            st.markdown("#### 1. The Discovery (Quantified Core Finding)")
+            discovery_text = report.get("element_1_the_discovery", "")
+            numbers = report.get("element_3_numbers", {})
+
             avg_growth = numbers.get("latest_4q_avg_sales_growth_pct", 0)
-            st.metric("4Q Avg Sales Growth", f"{avg_growth:+.1f}%")
-        with m2:
             dso = numbers.get("dso_recent_days", 0)
-            dso_chg = numbers.get("dso_pct_change", 0)
-            st.metric("DSO (Trade Debtor Days)", f"{dso:.1f} days", f"{dso_chg:+.1f}%")
-        with m3:
             dio = numbers.get("dio_recent_days", 0)
-            dio_chg = numbers.get("dio_pct_change", 0)
-            st.metric("DIO (Inventory Days)", f"{dio:.1f} days", f"{dio_chg:+.1f}%")
-        with m4:
-            q_cnt = numbers.get("quarters_analyzed_count", 13)
-            st.metric("Quarters Harvested", f"{q_cnt} Quarters", "Audited")
-            
-        # Chart Data
-        chart_data = report.get("chart_data", {})
-        quarters = chart_data.get("quarters", [])
-        sales_cr = chart_data.get("sales_cr", [])
-        yoy_pct = chart_data.get("yoy_growth_pct", [])
-        
-        if quarters and sales_cr:
-            st.write("")
-            chart_df = pd.DataFrame({
-                "Quarter": quarters,
-                "Sales (₹ Cr)": sales_cr,
-                "YoY Growth (%)": yoy_pct
-            }).set_index("Quarter")
-            
-            c_chart1, c_chart2 = st.columns(2)
-            with c_chart1:
-                st.caption("📈 Reported Quarterly Revenue (₹ Crores)")
-                st.bar_chart(chart_df["Sales (₹ Cr)"], color="#0284c7")
-            with c_chart2:
-                st.caption("📊 YoY Growth Rate (%)")
-                st.line_chart(chart_df["YoY Growth (%)"], color="#16a34a")
-                
-        st.markdown(f"<span style='font-size: 11px; color: #64748b;'><em>Provenance: {numbers.get('calculation_provenance', 'Python FinancialCalculator')}</em></span>", unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        # Element 4: Timeline
-        st.markdown("#### 4. Evolution Timeline")
-        timeline = report.get("element_4_timeline", [])
-        for t in timeline:
-            st.markdown(f"&bull; **{t}**")
-            
-        st.markdown("---")
-        
-        # Element 5: Evidence Trail
-        st.markdown("#### 5. Evidence Trail (Three-Legged Triangulation)")
-        st.caption("Every finding is cross-checked against independent public sources, audited filings, and peer data where available.")
-        
-        evidence = report.get("element_5_evidence_trail", [])
-        for idx, ev in enumerate(evidence, 1):
-            with st.expander(f"Leg {idx}: {ev.get('source_type', 'Source')} — {ev.get('document_title', 'Document')}", expanded=True):
-                st.markdown(f"**Publication Period / Date:** {ev.get('publication_date', 'N/A')}")
-                st.markdown(f"**Section / Page:** {ev.get('section_or_page', 'N/A')}")
-                st.markdown(f"**Verified Passage / Figure:** *\"{ev.get('exact_figure_or_passage', 'N/A')}\"*")
-                link = ev.get('source_link') or ev.get('url')
-                if link:
-                    st.markdown(f"🔗 [Open Original Regulatory Document / Filing]({link})")
-                    
-        st.markdown("---")
-        
-        # Element 6 & 7: Counterargument & Falsification
-        c_left, c_right = st.columns(2)
-        with c_left:
-            st.markdown("#### 6. Strongest Counterargument (Devil's Advocate)")
-            counter = report.get("element_6_counterargument", "")
-            st.markdown(f"""
-            <div class="counter-box">
-                <strong>Alternative Explanation:</strong><br>{counter}
-            </div>
-            """, unsafe_allow_html=True)
-            
-        with c_right:
-            st.markdown("#### 7. Falsification Condition (Disproof Rule)")
-            falsify = report.get("element_7_falsification_condition", "")
-            st.markdown(f"""
-            <div class="falsify-box">
-                <strong>Disproof Milestone:</strong><br>{falsify}
-            </div>
-            """, unsafe_allow_html=True)
-            
-        st.markdown("---")
-        
-        # Element 8: Evidence Strength Breakdown
-        st.markdown("#### 8. Evidence Strength & Rubric Audit")
-        strength_info = report.get("element_8_evidence_strength", {})
-        st.markdown(f"**Overall Rating:** `{strength_info.get('rating', 'Moderate')}` &mdash; {strength_info.get('rationale', '')}")
-        
-        rubric = strength_info.get("rubric_breakdown", {})
-        r_cols = st.columns(4)
-        
-        rubric_items = [
-            ("Triangulation", rubric.get("multi_source_triangulation", {})),
-            ("Deterministic Math", rubric.get("mathematical_reproducibility", {})),
-            ("Primary Fidelity", rubric.get("primary_source_fidelity", {})),
-            ("Falsifiability", rubric.get("falsifiability_coverage", {}))
-        ]
-        
-        for c, (title, data) in zip(r_cols, rubric_items):
-            with c:
+
+            growth_str = f"{avg_growth:+.1f}%"
+            dso_str = f"{dso:.1f} days"
+            dio_str = f"{dio:.1f} days"
+
+            discovery_html = f"""<div class="discovery-box">
+    <div style="font-size: 16px; font-weight: 700; color: #6ee7b7; margin-bottom: 6px;">Finding:</div>
+    <div style="margin-bottom: 14px; font-size: 15px; line-height: 1.6; color: #ffffff;">{discovery_text}</div>
+    <div style="border-top: 1px solid rgba(16, 185, 129, 0.35); padding-top: 12px;">
+    <div style="font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Key Quantified Metrics (Scan Before Reading):</div>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <div class="number-badge">📈 Revenue Growth: <strong>{growth_str}</strong></div>
+    <div class="number-badge">⏱️ DSO: <strong>{dso_str}</strong></div>
+    <div class="number-badge">📦 Inventory: <strong>{dio_str}</strong></div>
+    </div>
+    </div>
+    </div>"""
+            st.markdown(discovery_html, unsafe_allow_html=True)
+
+            # -------------------------------------------------------------
+            # Element 2: Why It Matters with Bullet Icons (Matches Image 4)
+            # -------------------------------------------------------------
+            st.markdown("#### 2. Why It Matters (Operational & Economic Durability)")
+            bullets = report.get("element_2_why_it_matters", [])
+
+            # Map intuitive icons to each bullet as requested:
+            # • 📈 Growth
+            # • 📦 Inventory
+            # • 💰 Pricing
+            # • 🏪 Distribution
+            BULLET_ICONS = ["📈 Growth", "📦 Inventory", "💰 Pricing", "🏪 Distribution", "💵 Cash Flow"]
+            for idx, b in enumerate(bullets):
+                tag = BULLET_ICONS[idx % len(BULLET_ICONS)]
+                st.markdown(f"&bull; **{tag}:** {b}")
+
+            st.markdown("---")
+
+            # Element 3: The Numbers & Inline Chart
+            st.markdown("#### 3. Key Numbers & Deterministic Calculations")
+            numbers = report.get("element_3_numbers", {})
+
+            m1, m2, m3, m4 = st.columns(4)
+            with m1:
+                avg_growth = numbers.get("latest_4q_avg_sales_growth_pct", 0)
+                st.metric("4Q Avg Sales Growth", f"{avg_growth:+.1f}%")
+            with m2:
+                dso = numbers.get("dso_recent_days", 0)
+                dso_chg = numbers.get("dso_pct_change", 0)
+                st.metric("DSO (Trade Debtor Days)", f"{dso:.1f} days", f"{dso_chg:+.1f}%")
+            with m3:
+                dio = numbers.get("dio_recent_days", 0)
+                dio_chg = numbers.get("dio_pct_change", 0)
+                st.metric("DIO (Inventory Days)", f"{dio:.1f} days", f"{dio_chg:+.1f}%")
+            with m4:
+                q_cnt = numbers.get("quarters_analyzed_count", 13)
+                st.metric("Quarters Harvested", f"{q_cnt} Quarters", "Audited")
+
+            # Chart Data
+            chart_data = report.get("chart_data", {})
+            quarters = chart_data.get("quarters", [])
+            sales_cr = chart_data.get("sales_cr", [])
+            yoy_pct = chart_data.get("yoy_growth_pct", [])
+
+            if quarters and sales_cr:
+                st.write("")
+                chart_df = pd.DataFrame({
+                    "Quarter": quarters,
+                    "Sales (₹ Cr)": sales_cr,
+                    "YoY Growth (%)": yoy_pct
+                }).set_index("Quarter")
+
+                c_chart1, c_chart2 = st.columns(2)
+                with c_chart1:
+                    st.caption("📈 Reported Quarterly Revenue (₹ Crores)")
+                    st.bar_chart(chart_df["Sales (₹ Cr)"], color="#0284c7")
+                with c_chart2:
+                    st.caption("📊 YoY Growth Rate (%)")
+                    st.line_chart(chart_df["YoY Growth (%)"], color="#16a34a")
+
+            st.markdown(f"<span style='font-size: 11px; color: #64748b;'><em>Provenance: {numbers.get('calculation_provenance', 'Python FinancialCalculator')}</em></span>", unsafe_allow_html=True)
+
+            st.markdown("---")
+
+            # Element 4: Timeline
+            st.markdown("#### 4. Evolution Timeline")
+            timeline = report.get("element_4_timeline", [])
+            for t in timeline:
+                st.markdown(f"&bull; **{t}**")
+
+            st.markdown("---")
+
+            # Element 5: Evidence Trail
+            st.markdown("#### 5. Evidence Trail (Three-Legged Triangulation)")
+            st.caption("Every finding is cross-checked against independent public sources, audited filings, and peer data where available.")
+
+            evidence = report.get("element_5_evidence_trail", [])
+            for idx, ev in enumerate(evidence, 1):
+                with st.expander(f"Leg {idx}: {ev.get('source_type', 'Source')} — {ev.get('document_title', 'Document')}", expanded=True):
+                    st.markdown(f"**Publication Period / Date:** {ev.get('publication_date', 'N/A')}")
+                    st.markdown(f"**Section / Page:** {ev.get('section_or_page', 'N/A')}")
+                    st.markdown(f"**Verified Passage / Figure:** *\"{ev.get('exact_figure_or_passage', 'N/A')}\"*")
+                    link = ev.get('source_link') or ev.get('url')
+                    if link:
+                        st.markdown(f"🔗 [Open Original Regulatory Document / Filing]({link})")
+
+            st.markdown("---")
+
+            # Element 6 & 7: Counterargument & Falsification
+            c_left, c_right = st.columns(2)
+            with c_left:
+                st.markdown("#### 6. Strongest Counterargument (Devil's Advocate)")
+                counter = report.get("element_6_counterargument", "")
                 st.markdown(f"""
-                <div class="metric-card">
-                    <div style="font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em;">{title}</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #ffffff !important; margin: 6px 0;">{data.get('score', 'Pass')}</div>
-                    <div style="font-size: 11.5px; color: #cbd5e1 !important; line-height: 1.45;">{data.get('detail', '')}</div>
+                <div class="counter-box">
+                    <strong>Alternative Explanation:</strong><br>{counter}
                 </div>
                 """, unsafe_allow_html=True)
 
+            with c_right:
+                st.markdown("#### 7. Falsification Condition (Disproof Rule)")
+                falsify = report.get("element_7_falsification_condition", "")
+                st.markdown(f"""
+                <div class="falsify-box">
+                    <strong>Disproof Milestone:</strong><br>{falsify}
+                </div>
+                """, unsafe_allow_html=True)
 
-    with tab_submission:
-        st.markdown("#### Round 1 Submission Pitch (2-Page PDF)")
-        st.caption("Official Track C Pitch Document: Concept, 5-Step Architecture, Triangulation, and Roadmap.")
-        
-        pdf_path = os.path.join(os.path.dirname(__file__), "WhoCares_TrackC_Round1.pdf")
-        if os.path.exists(pdf_path):
-            with open(pdf_path, "rb") as f:
-                pdf_bytes = f.read()
-            st.download_button(
-                label="📥 Download Submission Pitch PDF (WhoCares_TrackC_Round1.pdf)",
-                data=pdf_bytes,
-                file_name="WhoCares_TrackC_Round1.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-            
-        st.markdown("""
-        ##### PDF Architecture Summary:
-        - **Page 1:** The Breakthrough (Why AI summarizers fail), Stack & Architecture (Deterministic Math, Screener.in, BSE Concalls), 5-Step Process, and Company-Agnostic Track C Universe (FMCG Brands vs Retail Non-Volume Disclosers).
-        - **Page 2:** Evidence Triangulation (3-Legged Model), Self-Falsification (Devil's Advocate + Disproof Rule), Single Interactive Dashboard Wireframe (All 8 Elements), and Build Plan & Milestones to Oct 25.
-        """)
+            st.markdown("---")
 
-    with tab_export:
-        st.markdown("#### Export Discovery Report")
-        col_exp1, col_exp2 = st.columns(2)
-        
-        with col_exp1:
-            st.markdown("##### Download JSON Data")
-            json_str = json.dumps(report, indent=2)
-            st.download_button(
-                label=f"📥 Download {ticker}_Discovery.json",
-                data=json_str,
-                file_name=f"{ticker}_Discovery.json",
-                mime="application/json",
-                use_container_width=True
-            )
-            
-        with col_exp2:
-            st.markdown("##### Download Markdown Memo")
-            md_content = f"""# ARGUS Discovery Memo: {company_name} ({ticker})
+            # Element 8: Evidence Strength Breakdown
+            st.markdown("#### 8. Evidence Strength & Rubric Audit")
+            strength_info = report.get("element_8_evidence_strength", {})
+            st.markdown(f"**Overall Rating:** `{strength_info.get('rating', 'Moderate')}` &mdash; {strength_info.get('rationale', '')}")
+
+            rubric = strength_info.get("rubric_breakdown", {})
+            r_cols = st.columns(4)
+
+            rubric_items = [
+                ("Triangulation", rubric.get("multi_source_triangulation", {})),
+                ("Deterministic Math", rubric.get("mathematical_reproducibility", {})),
+                ("Primary Fidelity", rubric.get("primary_source_fidelity", {})),
+                ("Falsifiability", rubric.get("falsifiability_coverage", {}))
+            ]
+
+            for c, (title, data) in zip(r_cols, rubric_items):
+                with c:
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <div style="font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.04em;">{title}</div>
+                        <div style="font-size: 13px; font-weight: 700; color: #ffffff !important; margin: 6px 0;">{data.get('score', 'Pass')}</div>
+                        <div style="font-size: 11.5px; color: #cbd5e1 !important; line-height: 1.45;">{data.get('detail', '')}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+
+        with tab_submission:
+            st.markdown("#### Round 1 Submission Pitch (2-Page PDF)")
+            st.caption("Official Track C Pitch Document: Concept, 5-Step Architecture, Triangulation, and Roadmap.")
+
+            pdf_path = os.path.join(os.path.dirname(__file__), "WhoCares_TrackC_Round1.pdf")
+            if os.path.exists(pdf_path):
+                with open(pdf_path, "rb") as f:
+                    pdf_bytes = f.read()
+                st.download_button(
+                    label="📥 Download Submission Pitch PDF (WhoCares_TrackC_Round1.pdf)",
+                    data=pdf_bytes,
+                    file_name="WhoCares_TrackC_Round1.pdf",
+                    mime="application/pdf",
+                    use_container_width=True
+                )
+
+            st.markdown("""
+            ##### PDF Architecture Summary:
+            - **Page 1:** The Breakthrough (Why AI summarizers fail), Stack & Architecture (Deterministic Math, Screener.in, BSE Concalls), 5-Step Process, and Company-Agnostic Track C Universe (FMCG Brands vs Retail Non-Volume Disclosers).
+            - **Page 2:** Evidence Triangulation (3-Legged Model), Self-Falsification (Devil's Advocate + Disproof Rule), Single Interactive Dashboard Wireframe (All 8 Elements), and Build Plan & Milestones to Oct 25.
+            """)
+
+        with tab_export:
+            st.markdown("#### Export Discovery Report")
+            col_exp1, col_exp2 = st.columns(2)
+
+            with col_exp1:
+                st.markdown("##### Download JSON Data")
+                json_str = json.dumps(report, indent=2)
+                st.download_button(
+                    label=f"📥 Download {ticker}_Discovery.json",
+                    data=json_str,
+                    file_name=f"{ticker}_Discovery.json",
+                    mime="application/json",
+                    use_container_width=True
+                )
+
+            with col_exp2:
+                st.markdown("##### Download Markdown Memo")
+                md_bullets = "\n".join(f"- {b}" for b in bullets)
+                md_timeline = "\n".join(f"- {t}" for t in timeline)
+                md_content = f"""# ARGUS Discovery Memo: {company_name} ({ticker})
 **Track C: Consumer, FMCG & Retail** | Team: Who cares
 
 ## 1. The Discovery
 {discovery_text}
 
 ## 2. Why It Matters
-{chr(10).join(f"- {b}" for b in bullets)}
+{md_bullets}
 
 ## 3. Key Numbers
 - 4Q Avg Sales Growth: {avg_growth:+.1f}%
@@ -624,7 +631,7 @@ if report:
 - DIO (Inventory Days): {dio:.1f} days ({dio_chg:+.1f}%)
 
 ## 4. Timeline
-{chr(10).join(f"- {t}" for t in timeline)}
+{md_timeline}
 
 ## 5. Counterargument & Falsification
 - **Counterargument:** {counter}
@@ -633,13 +640,26 @@ if report:
 ## 6. Evidence Rating
 - **Strength:** {strength}
 """
-            st.download_button(
-                label=f"📥 Download {ticker}_Memo.md",
-                data=md_content,
-                file_name=f"{ticker}_Memo.md",
-                mime="text/markdown",
-                use_container_width=True
-            )
+                st.download_button(
+                    label=f"📥 Download {ticker}_Memo.md",
+                    data=md_content,
+                    file_name=f"{ticker}_Memo.md",
+                    mime="text/markdown",
+                    use_container_width=True
+                )
+    else:
+        st.markdown(f"""<div style="background: rgba(15, 23, 42, 0.65); border: 1.5px dashed rgba(56, 189, 248, 0.45); border-radius: 12px; padding: 40px 24px; text-align: center; margin-top: 24px;">
+<div style="font-size: 38px; margin-bottom: 12px;">⚡ 🤖 📊</div>
+<div style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Target Selected: <span style="color: #38bdf8;">{company_name} ({ticker})</span></div>
+<div style="font-size: 14px; color: #cbd5e1; max-width: 620px; margin: 0 auto 20px auto; line-height: 1.6;">
+Regulatory filings index primed for <strong>{company_name}</strong> across 13 quarters.
+<br><br>
+Click <strong style="color: #38bdf8;">"▶ Run Investigation Pipeline"</strong> above to launch the autonomous agent, calculate deterministic ratios, test macroeconomic counterarguments, and generate the verified discovery report.
+</div>
+<div style="display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 9999px;">
+● Standby Mode &bull; Click "Run Investigation Pipeline" to Begin
+</div>
+</div>""", unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
