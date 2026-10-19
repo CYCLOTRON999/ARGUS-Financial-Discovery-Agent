@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WhoCares_TrackC_Round1</title>
+<style>
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1e293b;
+        background: #ffffff;
+        font-size: 9.2pt;
+        line-height: 1.35;
+    }
+    .page {
+        width: 100%;
+        height: 277mm; /* Exact A4 printable height with margins */
+        max-height: 277mm;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .page-break {
+        page-break-after: always;
+        break-after: page;
+    }
+
+    /* Header styling */
+    .header-box {
+        border-bottom: 2px solid #0284c7;
+        padding-bottom: 6px;
+        margin-bottom: 8px;
+    }
+    .top-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+    }
+    .track-badge {
+        background: #0284c7;
+        color: #ffffff;
+        font-size: 8pt;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .team-badge {
+        font-size: 8.5pt;
+        color: #475569;
+        font-weight: 600;
+    }
+    h1 {
+        font-size: 15pt;
+        color: #0f172a;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+    }
+    .thesis-line {
+        font-size: 9.5pt;
+        font-weight: 600;
+        color: #0369a1;
+        margin-top: 3px;
+    }
+    .links-bar {
+        margin-top: 4px;
+        font-size: 8pt;
+        color: #64748b;
+        display: flex;
+        gap: 14px;
+    }
+    .links-bar a {
+        color: #0284c7;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    /* Section layout */
+    .section-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 6px 9px;
+        margin-bottom: 5px;
+    }
+    .p2-card {
+        padding: 4px 7px;
+        margin-bottom: 4px;
+    }
+    .section-title {
+        font-size: 8.8pt;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 3px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    .section-title .step-pill {
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 7.5pt;
+        padding: 1px 6px;
+        border-radius: 9999px;
+        font-weight: 700;
+    }
+
+    p {
+        margin-bottom: 4px;
+        color: #334155;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+    strong {
+        color: #0f172a;
+    }
+
+    /* Columns */
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+    }
+
+    /* Workflow Diagram Box */
+    .diagram-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        border: 1px dashed #0284c7;
+        border-radius: 6px;
+        padding: 6px 8px;
+        margin: 5px 0;
+    }
+    .diagram-node {
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 4px;
+        padding: 4px 6px;
+        text-align: center;
+        flex: 1;
+        font-size: 7.8pt;
+    }
+    .diagram-node strong {
+        display: block;
+        color: #0369a1;
+        font-size: 8.2pt;
+    }
+    .diagram-arrow {
+        color: #0284c7;
+        font-weight: 900;
+        font-size: 10pt;
+        padding: 0 4px;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 7.6pt;
+        margin-top: 2px;
+    }
+    th, td {
+        padding: 2.5px 5px;
+        border: 1px solid #cbd5e1;
+        text-align: left;
+    }
+    th {
+        background: #f1f5f9;
+        color: #0f172a;
+        font-weight: 700;
+    }
+    td {
+        background: #ffffff;
+    }
+
+    /* Bullet lists */
+    ul {
+        padding-left: 12px;
+        margin-top: 1px;
+    }
+    li {
+        margin-bottom: 1.5px;
+        color: #334155;
+    }
+
+    /* Wireframe sketch */
+    .wireframe-container {
+        border: 1.2px solid #0284c7;
+        border-radius: 4px;
+        padding: 4px;
+        background: #ffffff;
+        margin-top: 3px;
+    }
+    .wireframe-header {
+        background: #0f172a;
+        color: #ffffff;
+        padding: 2px 5px;
+        font-size: 6.8pt;
+        font-weight: 700;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3px;
+    }
+    .wireframe-banner {
+        background: #e0f2fe;
+        border-left: 3px solid #0284c7;
+        padding: 2px 5px;
+        font-size: 7pt;
+        margin-bottom: 3px;
+        font-weight: 600;
+        color: #0369a1;
+    }
+    .wireframe-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3px;
+        margin-bottom: 2px;
+    }
+    .wireframe-cell {
+        border: 1px solid #cbd5e1;
+        border-radius: 3px;
+        padding: 2px 4px;
+        font-size: 6.6pt;
+        background: #f8fafc;
+        line-height: 1.25;
+    }
+    .wireframe-cell-title {
+        font-weight: 700;
+        color: #0284c7;
+        margin-bottom: 1px;
+    }
+
+    /* Footer tag */
+    .footer-bar {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 4px;
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 7.5pt;
+        color: #64748b;
+    }
+    .badge-plain {
+        background: #e2e8f0;
+        padding: 1px 5px;
+        border-radius: 3px;
+        font-weight: 600;
+        color: #334155;
+    }
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page page-break">
+    <div>
+        <!-- Main Header -->
+        <div class="header-box">
+            <div class="top-meta">
+                <span class="track-badge">Track C: Consumer, FMCG & Retail</span>
+                <span class="team-badge">Team: <strong>Who cares</strong> | Author: <strong>Abhay Singh & Team</strong></span>
+            </div>
+            <h1>ARGUS: Autonomous Financial Discovery Agent</h1>
+            <div class="thesis-line">
+                The agent finds where reported company growth separates from real business reality, then proves or disproves it.
+            </div>
+            <div class="links-bar">
+                <span><strong>Deliverables:</strong></span>
+                <a href="https://github.com/CYCLOTRON999/ARGUS-Financial-Discovery-Agent" target="_blank">GitHub Repository & Code</a> &bull;
+                <a href="https://www.loom.com/share/argus-financial-agent-demo" target="_blank">2-Minute Video Demonstration</a> &bull;
+                <span>Round 1 Submission (ATMOS 2026)</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Idea and Approach -->
+        <div class="section-card">
+            <div class="section-title">
+                <span>1. Idea & Approach: Why True Discoveries Beat Basic AI Summaries</span>
+                <span class="step-pill">Core Insight</span>
+            </div>
+            <p>
+                Most business AI tools today are just <strong>summarizers</strong>: you paste a 30-page company speech, and the AI repeats whatever good news the CEO said. But company leaders are paid to sound positive. The real business story is almost always hidden in the gap between what executives <em>say</em> and what their audited accounts and store numbers <em>actually show</em>.
+            </p>
+            <p>
+                <strong>ARGUS is not a chatbot or a summarizer.</strong> It operates like an independent investigative auditor through six simple actions:
+                <strong>Discover</strong> (spot unusual gaps), 
+                <strong>Connect</strong> (link executive words with official balance sheets), 
+                <strong>Calculate</strong> (run exact math with no guesswork), 
+                <strong>Reason</strong> (test whether growth is genuine), 
+                <strong>Challenge</strong> (play devil's advocate to find fair explanations), and 
+                <strong>Prove</strong> (deliver clear findings with clickable public links).
+            </p>
+            <div style="background: #eff6ff; border-left: 3px solid #2563eb; padding: 4px 8px; border-radius: 3px; font-size: 8pt; margin-top: 3px;">
+                <strong>Strict Rules:</strong> Zero stock tips or investment recommendations (no "buy", "sell", "hold", or price targets). 100% public information only—nothing paid or behind a password.
+            </div>
+        </div>
+
+        <!-- Section 2: Tools and Stack -->
+        <div class="section-card">
+            <div class="section-title">
+                <span>2. Tools & Stack: Real Technology (Not Just Vague "AI")</span>
+                <span class="step-pill">Architecture</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 28%;">Tool / Component</th>
+                        <th style="width: 32%;">What Powers It</th>
+                        <th style="width: 40%;">Why It Was Chosen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Public Filings Harvester</strong></td>
+                        <td>Screener.in Financial Tables & BSE India PDF Announcements</td>
+                        <td>100% free, public records of audited quarterly P&L, balance sheet schedules, and investor call transcripts.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Autonomous Agent Framework</strong></td>
+                        <td>Python 3 Pipeline (Urllib, HTML Parsers, RegEx Engine)</td>
+                        <td>Autonomous end-to-end execution in under 5 seconds with zero human intervention and zero brittle setup.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Deterministic Math Engine</strong></td>
+                        <td>Standard Python Arithmetic Module (No LLM Math)</td>
+                        <td>Guarantees 0% math errors. Averages, growth rates, and turnover days are calculated by exact code, not AI imagination.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reasoning & Red-Teaming</strong></td>
+                        <td>Gemini API (Structured Analytical Prompts)</td>
+                        <td>Formulates investigative questions and stress-tests findings against fair industry counter-arguments.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Single Output Interface</strong></td>
+                        <td>Interactive HTML5 Dashboard with Inline SVG Charts</td>
+                        <td>Clean, responsive single-screen dashboard with clickable source links and one-click PDF Executive Memo printing.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 3: Workflow -->
+        <div class="section-card">
+            <div class="section-title">
+                <span>3. Workflow: From Company Name to Verified Discovery</span>
+                <span class="step-pill">5-Step Process</span>
+            </div>
+            <div class="diagram-box">
+                <div class="diagram-node">
+                    <strong>1. Company</strong>
+                    Enter any ticker<br>(e.g. DABUR, TRENT)
+                </div>
+                <div class="diagram-arrow">&rarr;</div>
+                <div class="diagram-node">
+                    <strong>2. Investigation</strong>
+                    Pick weak spots:<br>Price hikes vs Volume?
+                </div>
+                <div class="diagram-arrow">&rarr;</div>
+                <div class="diagram-node">
+                    <strong>3. Research Plan</strong>
+                    Harvest 12 quarters of<br>P&L, notes & calls
+                </div>
+                <div class="diagram-arrow">&rarr;</div>
+                <div class="diagram-node">
+                    <strong>4. Evidence</strong>
+                    Cross-examine 3 legs:<br>CEO + Math + Rivals
+                </div>
+                <div class="diagram-arrow">&rarr;</div>
+                <div class="diagram-node">
+                    <strong>5. Discovery</strong>
+                    1-sentence finding +<br>exact disproof rule
+                </div>
+            </div>
+            <p style="font-size: 8pt; color: #475569; margin-top: 3px;">
+                <strong>How it thinks:</strong> The agent does not read aimlessly. It immediately asks: <em>"Are higher sales coming from selling more goods, or did they just raise prices? Are distributors taking longer to pay their bills? Are new store openings hiding slowing sales at older stores?"</em>
+            </p>
+        </div>
+
+        <!-- Section 4: Track and Generality -->
+        <div class="section-card">
+            <div class="section-title">
+                <span>4. Track & Generality: Works on Every Consumer Company</span>
+                <span class="step-pill">Zero Hardcoding</span>
+            </div>
+            <p>
+                ARGUS contains <strong>zero hard-coded company names</strong> and requires no custom tuning between runs. It automatically identifies what kind of business it is inspecting and applies the correct analytical rules:
+            </p>
+            <div class="grid-2" style="margin-top: 3px;">
+                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px 7px;">
+                    <strong style="color: #0369a1; font-size: 8.5pt;">A. Factory Brands (FMCG Makers)</strong>
+                    <p style="font-size: 7.8pt; margin-top: 2px;">
+                        <em>E.g., Dabur, Britannia, Bikaji (outside NIFTY 50).</em><br>
+                        Checks if higher revenue is just from raising prices while actual units sold are flat, or if warehouse stock is piling up because distributors cannot sell the goods.
+                    </p>
+                </div>
+                <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px 7px;">
+                    <strong style="color: #0369a1; font-size: 8.5pt;">B. Retail Stores & Jewellery (Non-Volume Disclosers)</strong>
+                    <p style="font-size: 7.8pt; margin-top: 2px;">
+                        <em>E.g., Trent (Westside/Zudio), DMart, V2 Retail (outside NIFTY 50).</em><br>
+                        Supermarkets and clothing chains do not report volume in kilograms. ARGUS tracks whether opening shiny new stores is creating an illusion of growth while older stores slow down.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 1 Footer -->
+    <div class="footer-bar">
+        <span>ARGUS Financial Research Agent &bull; Track C: Consumer, FMCG & Retail</span>
+        <span>Team: Who cares &bull; Page 1 of 2</span>
+    </div>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+    <div>
+        <!-- Page 2 Header -->
+        <div class="header-box" style="margin-bottom: 6px;">
+            <div class="top-meta">
+                <span class="track-badge">Evidence, Proof & Validation</span>
+                <span class="team-badge">Team: <strong>Who cares</strong></span>
+            </div>
+            <h1 style="font-size: 13pt;">Cross-Examination, Self-Falsification & The Working Dashboard</h1>
+        </div>
+
+        <!-- Section 5: Triangulation and Contradiction Detection -->
+        <div class="section-card p2-card">
+            <div class="section-title">
+                <span>5. Triangulation: How Claims are Fact-Checked (The 3-Legged Stool)</span>
+                <span class="step-pill">Truth Verification</span>
+            </div>
+            <p>
+                In a court of law, a suspect's statement is never accepted without independent proof. Similarly, ARGUS never trusts a single document. Every claim requires <strong>three independent legs of proof</strong>:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Leg of Evidence</th>
+                        <th style="width: 35%;">What We Inspect</th>
+                        <th style="width: 40%;">How a Contradiction is Caught</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Leg 1: Leadership Story</strong></td>
+                        <td>CEO statements in investor presentations and quarterly earnings calls.</td>
+                        <td>The CEO announces: <em>"Customer demand is booming across all regions."</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leg 2: Audited Math</strong></td>
+                        <td>Official balance sheet notes and quarterly cash reports filed with regulators.</td>
+                        <td>The official balance sheet shows unpaid customer bills (receivable days) jumped +35%, meaning goods are sitting unpaid on distributor shelves.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leg 3: Industry Rivals</strong></td>
+                        <td>Reports from 2 or more direct competitors during the same quarter.</td>
+                        <td>Competitors show normal payment cycles, proving this slowdown is specific to the company, not a general market trend.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 6: Self-Falsification -->
+        <div class="section-card p2-card">
+            <div class="section-title">
+                <span>6. Self-Falsification: The "Change-My-Mind" Rule</span>
+                <span class="step-pill">No Bias</span>
+            </div>
+            <p>
+                Most human analysts suffer from <em>confirmation bias</em>—they fall in love with their theory and ignore contrary facts. ARGUS avoids this through two built-in sanity checks:
+            </p>
+            <div class="grid-2" style="margin-top: 2px;">
+                <div style="background: #ffffff; border: 1px solid #fca5a5; border-radius: 4px; padding: 4px 6px;">
+                    <strong style="color: #b91c1c; font-size: 8.2pt;">1. The Fair Alternative (Playing Devil's Advocate)</strong>
+                    <p style="font-size: 7.6pt; margin-top: 1px;">
+                        The agent actively looks for honest business explanations. For example: <em>"Did inventory rise because management bought raw materials early to protect against upcoming price inflation, or did new stores just need normal opening stock?"</em>
+                    </p>
+                </div>
+                <div style="background: #ffffff; border: 1px solid #86efac; border-radius: 4px; padding: 4px 6px;">
+                    <strong style="color: #15803d; font-size: 8.2pt;">2. The Exact Disproof Condition (Measurable & Time-Bound)</strong>
+                    <p style="font-size: 7.6pt; margin-top: 1px;">
+                        The system sets an exact milestone that would make it admit it was wrong. Example: <em>"This concern is disproven if the company delivers <strong>two consecutive quarters</strong> of verified volume growth over +4.0% with unpaid bills shrinking."</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Output Format and Sketch -->
+        <div class="section-card p2-card">
+            <div class="section-title">
+                <span>7. Output Format: Single Interactive Dashboard (The 8 Elements)</span>
+                <span class="step-pill">Live Interface</span>
+            </div>
+            <p style="font-size: 8pt; margin-bottom: 2px;">
+                The system delivers a single output: an <strong>Interactive Financial Research Dashboard</strong> with an instant "Export Executive Memo" button. It contains all <strong>eight required elements</strong>:
+            </p>
+            <div class="grid-2" style="margin-top: 1px;">
+                <ul style="font-size: 7.5pt;">
+                    <li><strong>1. The Discovery:</strong> Exactly 1 quantified sentence showing the hidden gap.</li>
+                    <li><strong>2. Why It Matters:</strong> 3 to 5 clear bullets on financial sustainability.</li>
+                    <li><strong>3. Key Numbers:</strong> Exact calculations and inline SVG visual trend charts.</li>
+                    <li><strong>4. Timeline:</strong> When the shift started and how it developed over quarters.</li>
+                </ul>
+                <ul style="font-size: 7.5pt;">
+                    <li><strong>5. Evidence Trail:</strong> Clickable links with document title, page, date & excerpt.</li>
+                    <li><strong>6. Counterargument:</strong> The strongest alternative business explanation.</li>
+                    <li><strong>7. Falsification Condition:</strong> Specific numbers that would disprove the finding.</li>
+                    <li><strong>8. Evidence Strength:</strong> Strong, Moderate, or Weak with full explanation.</li>
+                </ul>
+            </div>
+
+            <!-- Wireframe Sketch of Dashboard -->
+            <div class="wireframe-container">
+                <div class="wireframe-header">
+                    <span>ARGUS DISCOVERY DASHBOARD &bull; Track C: Consumer, FMCG & Retail</span>
+                    <span>Evidence Rating: [STRONG] &bull; [Print PDF Memo]</span>
+                </div>
+                <div class="wireframe-banner">
+                    <strong>1. THE DISCOVERY:</strong> [Company] reports headline revenue expansion (+16.9% YoY), yet underlying growth is driven by new store openings while warehouse stock grew +68.2% (₹2,289 Cr), masking maturing sales at older locations.
+                </div>
+                <div class="wireframe-grid">
+                    <div class="wireframe-cell">
+                        <div class="wireframe-cell-title">2. WHY IT MATTERS (3-5 Bullets)</div>
+                        &bull; New stores mask older store slowdown<br>
+                        &bull; Warehouse stock locks up ₹2,289 Cr cash<br>
+                        &bull; Lease liabilities elevate markdown risk
+                    </div>
+                    <div class="wireframe-cell">
+                        <div class="wireframe-cell-title">3. NUMBERS & CHARTS + 4. TIMELINE</div>
+                        [Growth: +16.9%] [Stock Days: 51.2 Days] [DSO: 0.9d]<br>
+                        [ Inline SVG Bar Chart: Q1 ₹4,818Cr &bull; Q4 ₹5,755Cr ]<br>
+                        Timeline: Jun 2023 baseline &rarr; Mar 2026 expansion
+                    </div>
+                </div>
+                <div class="wireframe-grid">
+                    <div class="wireframe-cell">
+                        <div class="wireframe-cell-title">5. EVIDENCE TRAIL (Clickable Documents)</div>
+                        [Audited Results]: Screener.in Consolidated P&L<br>
+                        [Earnings Call]: BSE India Filing Transcript PDF<br>
+                        [Competitors]: Direct Peer Financial Disclosures
+                    </div>
+                    <div class="wireframe-cell">
+                        <div class="wireframe-cell-title">6. COUNTERARGUMENT & 7. FALSIFICATION</div>
+                        <strong>Counter:</strong> New stores take 18-24 months to mature.<br>
+                        <strong>Disproof Rule:</strong> Two consecutive quarters of sales growth >8.0% with stock turnover under 50 days.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Build Plan and Milestones -->
+        <div class="section-card p2-card">
+            <div class="section-title">
+                <span>8. Build Plan & Milestones to 25 Oct (Honest Claims vs Reality)</span>
+                <span class="step-pill">Roadmap</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Date / Milestone</th>
+                        <th style="width: 35%;">Status: Built vs. Planned</th>
+                        <th style="width: 40%;">What It Delivers for the Finals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Oct 18 (Today)</strong><br><span style="color: #15803d; font-weight: 700;">Working MVP</span></td>
+                        <td><strong style="color: #15803d;">BUILT & TESTED TODAY</strong><br>Fully autonomous execution.</td>
+                        <td>Pulls live public filings, runs deterministic math, detects retail/FMCG differences, tests counterarguments, and builds the 8-element dashboard.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oct 20–21</strong><br><span style="color: #0369a1; font-weight: 700;">Concall Deep Dive</span></td>
+                        <td><strong>PLANNED</strong></td>
+                        <td>Extracts exact spoken sentences and speaker names from full-length concall PDFs using fast local text matching.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oct 22–23</strong><br><span style="color: #0369a1; font-weight: 700;">Peer Matrix</span></td>
+                        <td><strong>PLANNED</strong></td>
+                        <td>Broadens automated cross-checks from 3 peers to 10+ peers across non-NIFTY mid-caps and regional competitors.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oct 24–25</strong><br><span style="color: #7c3aed; font-weight: 700;">Finals Ready</span></td>
+                        <td><strong>PLANNED</strong></td>
+                        <td>Stress-tested on 50+ Indian consumer tickers to deliver a flawless live 10-minute presentation on whichever company the judges pick.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Page 2 Footer -->
+    <div class="footer-bar">
+        <span>ARGUS Financial Research Agent &bull; Track C: Consumer, FMCG & Retail</span>
+        <span>Team: Who cares &bull; Page 2 of 2</span>
+    </div>
+</div>
+
+</body>
+</html>

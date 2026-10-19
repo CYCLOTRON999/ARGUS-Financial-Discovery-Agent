@@ -1,0 +1,90 @@
+{
+  "track": "Track C \u2014 Consumer, FMCG & Retail",
+  "company_name": "V2 Retail Ltd",
+  "ticker": "V2RETAIL",
+  "business_model": "Retail Chain",
+  "element_1_the_discovery": "V2 Retail Ltd presents strong aggregate revenue expansion (+65.3% YoY), yet growth is overwhelmingly propelled by aggressive new store footprint additions while network inventory expanded +309.3% (reaching \u20b91,142 Cr), indicating that top-line acceleration masks maturing sales productivity across legacy flagship locations.",
+  "element_2_why_it_matters": [
+    "Top-line revenue driven by new store openings can create an optical illusion of growth that masks maturing or cannibalized sales at existing locations.",
+    "Balance sheet inventory expanded by +309.3% to \u20b91,142 Cr (holding period at 160.6 days), elevating markdown and obsolescence risks if footfalls normalize.",
+    "Substantial lease liabilities and store upfront capital investments require sustained high sales throughput per square foot to preserve store-level EBITDA margins.",
+    "Customer receivables remain nominal (0.2 days) due to cash-and-carry retail operations, concentrating operational risk squarely in inventory velocity."
+  ],
+  "element_3_numbers": {
+    "latest_4q_avg_sales_growth_pct": 65.3,
+    "inventory_initial_cr": 279.0,
+    "inventory_recent_cr": 1142.0,
+    "inventory_growth_pct": 309.3,
+    "dio_initial_days": 135.2,
+    "dio_recent_days": 160.6,
+    "dio_delta_days": 25.4,
+    "dso_recent_days": 0.2,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited quarterly results and balance sheet schedules."
+  },
+  "element_4_timeline": [
+    "Sep 2025: Reported Sales \u20b9709 Cr (+86.58% YoY)",
+    "Dec 2025: Reported Sales \u20b9929 Cr (+57.19% YoY)",
+    "Mar 2026: Reported Sales \u20b9797 Cr (+59.72% YoY)",
+    "Jun 2026: Reported Sales \u20b9997 Cr (+57.75% YoY)",
+    "Retail Footprint & Inventory Scaling: Network inventory grew from \u20b9279 Cr (Mar 2023) to \u20b91,142 Cr (Mar 2026) (+309.3%)"
+  ],
+  "element_5_evidence_trail": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "V2 Retail Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/V2RETAIL/consolidated/#quarters",
+      "data_covered": "13 Quarters (Jun 2023 to Jun 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "V2 Retail Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=3e7005c9-a08e-4ca3-85d9-ddf0eb10e65c.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (TRENT, LENSKART, MANYAVAR)",
+      "url": "https://www.screener.in/company/TRENT/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_6_counterargument": "New retail store cohorts typically require 18 to 24 months to reach full sales maturity; near-term working capital absorption and inventory stocking are standard operational hallmarks of aggressive retail footprint scaling.",
+  "element_7_falsification_condition": "Same-store sales growth (SSSG) exceeding +8.0% YoY for two consecutive quarters, coupled with inventory turnover days compressing below 135.2 days alongside positive free cash flow expansion.",
+  "element_8_evidence_strength": {
+    "rating": "Moderate",
+    "rationale": "Audited quarterly revenue confirms top-line acceleration, but store-level maturation cycles provide a legitimate operational counter-rationale."
+  },
+  "element_3_evidence": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "V2 Retail Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/V2RETAIL/consolidated/#quarters",
+      "data_covered": "13 Quarters (Jun 2023 to Jun 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "V2 Retail Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=3e7005c9-a08e-4ca3-85d9-ddf0eb10e65c.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (TRENT, LENSKART, MANYAVAR)",
+      "url": "https://www.screener.in/company/TRENT/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_5_numbers": {
+    "latest_4q_avg_sales_growth_pct": 65.3,
+    "inventory_initial_cr": 279.0,
+    "inventory_recent_cr": 1142.0,
+    "inventory_growth_pct": 309.3,
+    "dio_initial_days": 135.2,
+    "dio_recent_days": 160.6,
+    "dio_delta_days": 25.4,
+    "dso_recent_days": 0.2,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited quarterly results and balance sheet schedules."
+  }
+}

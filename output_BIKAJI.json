@@ -1,0 +1,92 @@
+{
+  "track": "Track C \u2014 Consumer, FMCG & Retail",
+  "company_name": "Bikaji Foods International Ltd",
+  "ticker": "BIKAJI",
+  "business_model": "FMCG Manufacturer",
+  "element_1_the_discovery": "Bikaji Foods International Ltd reports headline revenue expansion (+14.0% YoY), yet underlying growth is predominantly carried by realization and defensive pricing adjustments while working capital remains tightly managed, indicating that top-line performance is testing consumer price elasticity limits amid sluggish real volume absorption.",
+  "element_2_why_it_matters": [
+    "Price-led revenue growth without proportional unit volume expansion exposes the brand to consumer down-trading toward unorganized or private label competitors.",
+    "Controlled trade credit (13.0 DSO days) indicates strict distributor payment terms, but limits further pipeline stocking capacity.",
+    "Management commentary emphasizes premiumization, yet gross margin spreads reflect defensive pricing against raw material volatility.",
+    "Sector-wide peer disclosures confirm that industry-wide volume growth remains subdued across FMCG staples."
+  ],
+  "element_3_numbers": {
+    "latest_4q_avg_sales_growth_pct": 14.0,
+    "dso_initial_days": 14.7,
+    "dso_recent_days": 13.0,
+    "dso_delta_days": -1.7,
+    "dso_pct_change": -11.6,
+    "dio_initial_days": 16.2,
+    "dio_recent_days": 16.5,
+    "dio_delta_days": 0.3,
+    "dio_pct_change": 1.9,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited filings and schedules."
+  },
+  "element_4_timeline": [
+    "Sep 2025: Reported Sales \u20b9830 Cr (+15.12% YoY)",
+    "Dec 2025: Reported Sales \u20b9790 Cr (+10.49% YoY)",
+    "Mar 2026: Reported Sales \u20b9721 Cr (+18.0% YoY)",
+    "Jun 2026: Reported Sales \u20b9734 Cr (+12.4% YoY)",
+    "Working Capital Cycle: DSO maintained at 13.0 days (Mar 2026) with DIO at 16.5 days"
+  ],
+  "element_5_evidence_trail": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "Bikaji Foods International Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/BIKAJI/consolidated/#quarters",
+      "data_covered": "13 Quarters (Jun 2023 to Jun 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "Bikaji Foods International Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=e8f230c5-655e-4344-8429-677e16af7fbf.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (NESTLEIND, BRITANNIA, ZYDUSWELL)",
+      "url": "https://www.screener.in/company/NESTLEIND/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_6_counterargument": "Premiumization initiatives and high-margin product mix shifts genuinely elevate average realization per unit, rendering price-led revenue expansion durable and margin-accretive rather than defensively forced.",
+  "element_7_falsification_condition": "Two consecutive quarters of audited volume growth exceeding +5.0% YoY with stable or expanding operating profit margins (OPM).",
+  "element_8_evidence_strength": {
+    "rating": "Moderate",
+    "rationale": "Audited revenue and peer disclosures confirm price-led realizations; however, premium product mix evolution provides a legitimate alternative thesis."
+  },
+  "element_3_evidence": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "Bikaji Foods International Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/BIKAJI/consolidated/#quarters",
+      "data_covered": "13 Quarters (Jun 2023 to Jun 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "Bikaji Foods International Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=e8f230c5-655e-4344-8429-677e16af7fbf.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (NESTLEIND, BRITANNIA, ZYDUSWELL)",
+      "url": "https://www.screener.in/company/NESTLEIND/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_5_numbers": {
+    "latest_4q_avg_sales_growth_pct": 14.0,
+    "dso_initial_days": 14.7,
+    "dso_recent_days": 13.0,
+    "dso_delta_days": -1.7,
+    "dso_pct_change": -11.6,
+    "dio_initial_days": 16.2,
+    "dio_recent_days": 16.5,
+    "dio_delta_days": 0.3,
+    "dio_pct_change": 1.9,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited filings and schedules."
+  }
+}

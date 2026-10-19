@@ -1,0 +1,90 @@
+{
+  "track": "Track C \u2014 Consumer, FMCG & Retail",
+  "company_name": "Avenue Supermarts Ltd",
+  "ticker": "DMART",
+  "business_model": "Retail Chain",
+  "element_1_the_discovery": "Avenue Supermarts Ltd presents strong aggregate revenue expansion (+16.2% YoY), yet growth is overwhelmingly propelled by aggressive new store footprint additions while network inventory expanded +85.6% (reaching \u20b97,287 Cr), indicating that top-line acceleration masks maturing sales productivity across legacy flagship locations.",
+  "element_2_why_it_matters": [
+    "Top-line revenue driven by new store openings can create an optical illusion of growth that masks maturing or cannibalized sales at existing locations.",
+    "Balance sheet inventory expanded by +85.6% to \u20b97,287 Cr (holding period at 33.8 days), elevating markdown and obsolescence risks if footfalls normalize.",
+    "Substantial lease liabilities and store upfront capital investments require sustained high sales throughput per square foot to preserve store-level EBITDA margins.",
+    "Customer receivables remain nominal (0.8 days) due to cash-and-carry retail operations, concentrating operational risk squarely in inventory velocity."
+  ],
+  "element_3_numbers": {
+    "latest_4q_avg_sales_growth_pct": 16.2,
+    "inventory_initial_cr": 3927.0,
+    "inventory_recent_cr": 7287.0,
+    "inventory_growth_pct": 85.6,
+    "dio_initial_days": 30.2,
+    "dio_recent_days": 33.8,
+    "dio_delta_days": 3.6,
+    "dso_recent_days": 0.8,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited quarterly results and balance sheet schedules."
+  },
+  "element_4_timeline": [
+    "Dec 2025: Reported Sales \u20b918,101 Cr (+13.32% YoY)",
+    "Mar 2026: Reported Sales \u20b917,684 Cr (+18.91% YoY)",
+    "Jun 2026: Reported Sales \u20b918,795 Cr (+14.88% YoY)",
+    "Sep 2026: Reported Sales \u20b919,644 Cr (+17.8% YoY)",
+    "Retail Footprint & Inventory Scaling: Network inventory grew from \u20b93,927 Cr (Mar 2024) to \u20b97,287 Cr (Sep 2026) (+85.6%)"
+  ],
+  "element_5_evidence_trail": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "Avenue Supermarts Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/DMART/consolidated/#quarters",
+      "data_covered": "13 Quarters (Sep 2023 to Sep 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "Avenue Supermarts Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=deef7a97-c6ee-4727-804d-f00f23f54f71.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (VMM, EMIL, VMART)",
+      "url": "https://www.screener.in/company/VMM/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_6_counterargument": "New retail store cohorts typically require 18 to 24 months to reach full sales maturity; near-term working capital absorption and inventory stocking are standard operational hallmarks of aggressive retail footprint scaling.",
+  "element_7_falsification_condition": "Same-store sales growth (SSSG) exceeding +8.0% YoY for two consecutive quarters, coupled with inventory turnover days compressing below 30.2 days alongside positive free cash flow expansion.",
+  "element_8_evidence_strength": {
+    "rating": "Moderate",
+    "rationale": "Audited quarterly revenue confirms top-line acceleration, but store-level maturation cycles provide a legitimate operational counter-rationale."
+  },
+  "element_3_evidence": [
+    {
+      "source_type": "Primary Financial Statement (P&L & BS)",
+      "title": "Avenue Supermarts Ltd - Audited Quarterly Results & Balance Sheet",
+      "url": "https://www.screener.in/company/DMART/consolidated/#quarters",
+      "data_covered": "13 Quarters (Sep 2023 to Sep 2026)"
+    },
+    {
+      "source_type": "Management Commentary (Concall / Presentation)",
+      "title": "Avenue Supermarts Ltd - Transcript (Aug 2026)",
+      "url": "https://www.bseindia.com/stockinfo/AnnPdfOpen.aspx?Pname=deef7a97-c6ee-4727-804d-f00f23f54f71.pdf",
+      "data_covered": "Management commentary for Aug 2026 (Transcript)"
+    },
+    {
+      "source_type": "Competitor & Sector Benchmark",
+      "title": "Sub-Industry Peer Comparison (VMM, EMIL, VMART)",
+      "url": "https://www.screener.in/company/VMM/consolidated/",
+      "data_covered": "Cross-company realization & demand trends"
+    }
+  ],
+  "element_5_numbers": {
+    "latest_4q_avg_sales_growth_pct": 16.2,
+    "inventory_initial_cr": 3927.0,
+    "inventory_recent_cr": 7287.0,
+    "inventory_growth_pct": 85.6,
+    "dio_initial_days": 30.2,
+    "dio_recent_days": 33.8,
+    "dio_delta_days": 3.6,
+    "dso_recent_days": 0.8,
+    "quarters_analyzed_count": 13,
+    "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited quarterly results and balance sheet schedules."
+  }
+}
