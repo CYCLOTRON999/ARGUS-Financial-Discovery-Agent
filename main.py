@@ -4,9 +4,11 @@ Dashboard Generator & CLI Engine for ATMOS 2026 Financial Research Agent.
 Track C — Consumer, FMCG & Retail.
 
 Includes:
-  1. Core Track C (6 Companies): HINDUNILVR, BRITANNIA, TATACONSUM, NESTLEIND, DABUR, TRENT
-  2. Broader Consumer-Retail (2 Companies): TITAN, ASIANPAINT
-  3. Generic On-the-spot Judge Investigation workflow for ANY eligible NSE company.
+  1. Header and Selector matching ATMOS design:
+     - "Choose from the company list" dropdown with checkmark selection
+     - "Search by company name or NSE symbol"
+     - Grouping into Core Track C (6 companies) and Broader Consumer-Retail (2 companies)
+  2. Generic On-the-spot Judge Investigation workflow for ANY eligible NSE company.
 """
 
 import sys
@@ -18,15 +20,16 @@ from investigator import FinancialInvestigator
 CORE_TRACK_C = [
     ("HINDUNILVR", "Hindustan Unilever", "FMCG Staples"),
     ("BRITANNIA", "Britannia Industries", "FMCG Foods"),
-    ("TATACONSUM", "Tata Consumer", "FMCG Foods & Bev"),
-    ("NESTLEIND", "Nestle India", "FMCG Nutrition"),
+    ("TATACONSUM", "Tata Consumer Products", "FMCG Foods & Bev"),
+    ("NESTLEIND", "Nestlé India", "FMCG Nutrition"),
     ("DABUR", "Dabur India", "FMCG Healthcare"),
-    ("TRENT", "Trent (Zudio/Westside)", "Apparel Retail")
+    ("TRENT", "Trent", "Apparel Retail (Westside/Zudio)")
 ]
 
 BROADER_CONSUMER = [
     ("TITAN", "Titan Company", "Jewellery & Watches"),
-    ("ASIANPAINT", "Asian Paints", "Consumer Decorative")
+    ("ASIANPAINT", "Asian Paints", "Consumer Decorative"),
+    ("ITC", "ITC", "FMCG Diversified")
 ]
 
 TIE_BREAKERS = [
@@ -86,7 +89,7 @@ def build_svg_chart(chart_data: dict) -> str:
     """
     return svg
 
-def load_or_fetch_all_reports(primary_ticker: str = "HINDUNILVR", primary_report: dict = None) -> dict:
+def load_or_fetch_all_reports(primary_ticker: str = "TRENT", primary_report: dict = None) -> dict:
     """Loads cached reports and ensures primary_ticker and the 8 companies are present."""
     all_reports = {}
     cache_file = "all_reports.json"
@@ -100,7 +103,7 @@ def load_or_fetch_all_reports(primary_ticker: str = "HINDUNILVR", primary_report
     if primary_report and primary_ticker:
         all_reports[primary_ticker] = primary_report
 
-    # Ensure all 8 default tickers exist in cache
+    # Ensure all default tickers exist in cache
     required_tickers = [t[0] for t in CORE_TRACK_C] + [t[0] for t in BROADER_CONSUMER]
     for t in required_tickers:
         if t not in all_reports:
@@ -120,185 +123,271 @@ def load_or_fetch_all_reports(primary_ticker: str = "HINDUNILVR", primary_report
     return all_reports
 
 def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str):
-    """Generates the interactive multi-company dashboard with instant switcher and on-the-spot search."""
+    """Generates the interactive dashboard with the exact ATMOS selector layout."""
     if default_ticker not in all_reports:
-        default_ticker = list(all_reports.keys())[0] if all_reports else "HINDUNILVR"
+        default_ticker = "TRENT" if "TRENT" in all_reports else list(all_reports.keys())[0]
 
     report = all_reports[default_ticker]
     json_payload = json.dumps(all_reports)
+
+    # Initial display text for dropdown trigger
+    disp_names = {
+        "HINDUNILVR": "Hindustan Unilever (HINDUNILVR)",
+        "BRITANNIA": "Britannia Industries (BRITANNIA)",
+        "TATACONSUM": "Tata Consumer Products (TATACONSUM)",
+        "NESTLEIND": "Nestlé India (NESTLEIND)",
+        "DABUR": "Dabur India (DABUR)",
+        "TRENT": "Trent (TRENT)",
+        "TITAN": "Titan Company (TITAN)",
+        "ASIANPAINT": "Asian Paints (ASIANPAINT)",
+        "ITC": "ITC (ITC)",
+        "V2RETAIL": "V2 Retail (V2RETAIL)",
+        "BIKAJI": "Bikaji Foods (BIKAJI)",
+        "DMART": "Avenue Supermarts (DMART)"
+    }
+    initial_label = disp_names.get(default_ticker, f"{report.get('company_name')} ({default_ticker})")
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARGUS Financial Discovery Dashboard - Track C</title>
+    <title>ATMOS — Financial Research Agent (Track C)</title>
     <style>
         * {{ box-sizing: border-box; }}
         body {{
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0b1120;
+            background-color: #000000;
             color: #f1f5f9;
             margin: 0;
             padding: 24px 16px;
         }}
         .container {{
-            max-width: 1040px;
+            max-width: 980px;
             margin: 0 auto;
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 28px 32px;
-            box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.6);
-            border: 1px solid #334155;
+            background: #0d1117;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 25px 40px -5px rgba(0, 0, 0, 0.8);
+            border: 1px solid #21262d;
         }}
         
-        /* Company Selector Navigation */
-        .selector-box {{
-            background: #0f172a;
-            border: 1px solid #38bdf8;
-            border-radius: 10px;
-            padding: 16px 20px;
+        /* ATMOS Card Top Selector (Exact Layout from Screenshot) */
+        .atmos-selector-card {{
+            background: #010409;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 24px 28px;
             margin-bottom: 24px;
         }}
-        .selector-header {{
+        .atmos-header-title {{
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }}
+        .atmos-header-subtitle {{
+            font-size: 13.5px;
+            color: #8b949e;
+            margin-top: 4px;
+            margin-bottom: 20px;
+        }}
+        .select-label {{
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }}
+        .radio-options {{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }}
+        .radio-label {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #e6edf3;
+            cursor: pointer;
+            user-select: none;
+        }}
+        .radio-label input[type="radio"] {{
+            appearance: none;
+            width: 17px;
+            height: 17px;
+            border: 2px solid #6e7681;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background: #0d1117;
+            margin: 0;
+        }}
+        .radio-label input[type="radio"]:checked {{
+            border-color: #58a6ff;
+        }}
+        .radio-label input[type="radio"]:checked::after {{
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 7px;
+            height: 7px;
+            background: #ffffff;
+            border-radius: 50%;
+        }}
+
+        /* Custom Dropdown Trigger */
+        .dropdown-wrapper {{
+            position: relative;
+            margin-bottom: 18px;
+        }}
+        .custom-select-trigger {{
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 14px;
+            color: #ffffff;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-        }}
-        .selector-title {{
-            font-size: 13px;
-            font-weight: 800;
-            color: #38bdf8;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }}
-        .selector-sub {{
-            font-size: 11px;
-            color: #94a3b8;
-        }}
-        .group-row {{
-            margin-bottom: 12px;
-        }}
-        .group-label {{
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: block;
-            margin-bottom: 6px;
-        }}
-        .group-label.core {{ color: #38bdf8; }}
-        .group-label.broader {{ color: #a78bfa; }}
-        .group-label.judge {{ color: #4ade80; }}
-
-        .btn-wrap {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }}
-        .comp-btn {{
-            background: #1e293b;
-            color: #cbd5e1;
-            border: 1px solid #475569;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease-in-out;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }}
-        .comp-btn:hover {{
-            background: #334155;
-            color: #ffffff;
-            border-color: #94a3b8;
-        }}
-        .comp-btn.active {{
-            background: #0284c7;
-            color: #ffffff;
-            border-color: #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-        }}
-        .comp-btn.broader.active {{
-            background: #7c3aed;
-            color: #ffffff;
-            border-color: #c084fc;
-            box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
-        }}
-        .comp-btn .sub-tag {{
-            font-size: 9px;
-            opacity: 0.75;
-            font-weight: 400;
-        }}
-
-        /* On-the-spot search */
-        .judge-search-bar {{
-            display: flex;
-            gap: 8px;
-            margin-top: 4px;
-        }}
-        .judge-input {{
-            flex: 1;
-            max-width: 380px;
-            background: #1e293b;
-            border: 1px solid #475569;
-            color: #ffffff;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            outline: none;
-        }}
-        .judge-input:focus {{
-            border-color: #4ade80;
-            box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
-        }}
-        .btn-investigate {{
-            background: #15803d;
-            color: #ffffff;
-            border: 1px solid #22c55e;
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
             transition: all 0.2s;
         }}
-        .btn-investigate:hover {{
-            background: #16a34a;
+        .custom-select-trigger:hover {{
+            border-color: #58a6ff;
         }}
-        .quick-chip {{
-            background: #1e293b;
-            color: #86efac;
-            border: 1px solid #22c55e;
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            cursor: pointer;
-            font-weight: 600;
+        .chevron-icon {{
+            width: 18px;
+            height: 18px;
+            color: #8b949e;
+            transition: transform 0.2s;
         }}
-        .quick-chip:hover {{
-            background: #22c55e;
-            color: #0f172a;
+        .chevron-icon.open {{
+            transform: rotate(180deg);
         }}
 
-        /* Header bar */
+        /* Dropdown Popup Menu */
+        .custom-dropdown-menu {{
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            margin-top: 6px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            max-height: 380px;
+            overflow-y: auto;
+        }}
+        .custom-dropdown-menu.show {{
+            display: block;
+        }}
+        .dropdown-category {{
+            font-size: 11px;
+            font-weight: 700;
+            color: #58a6ff;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 10px 16px 4px 16px;
+            border-top: 1px solid #21262d;
+            background: #13171f;
+        }}
+        .dropdown-category:first-child {{
+            border-top: none;
+            border-radius: 12px 12px 0 0;
+        }}
+        .dropdown-item {{
+            padding: 9px 16px;
+            font-size: 13.5px;
+            color: #e6edf3;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.15s;
+        }}
+        .dropdown-item:hover {{
+            background: #21262d;
+            color: #ffffff;
+        }}
+        .dropdown-item.active {{
+            background: #1f2937;
+            color: #58a6ff;
+            font-weight: 600;
+        }}
+        .check-slot {{
+            width: 14px;
+            display: inline-block;
+            font-weight: 700;
+            color: #58a6ff;
+        }}
+
+        /* Search input mode */
+        .search-wrapper {{
+            margin-bottom: 18px;
+        }}
+        .search-input-group {{
+            display: flex;
+            gap: 8px;
+        }}
+        .search-input {{
+            flex: 1;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 13.5px;
+            color: #ffffff;
+            outline: none;
+        }}
+        .search-input:focus {{
+            border-color: #58a6ff;
+            box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
+        }}
+        .search-btn {{
+            background: #238636;
+            color: #ffffff;
+            border: 1px solid #2ea043;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }}
+        .search-btn:hover {{
+            background: #2ea043;
+        }}
+
+        .validation-note {{
+            font-size: 12.5px;
+            color: #8b949e;
+            line-height: 1.5;
+            padding-top: 10px;
+            border-top: 1px solid #21262d;
+        }}
+        .validation-note strong {{
+            color: #c9d1d9;
+        }}
+
+        /* Dashboard Content Header */
         .header-bar {{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid #21262d;
             padding-bottom: 14px;
             margin-bottom: 20px;
         }}
         .badge {{
             display: inline-block;
-            background: #0284c7;
+            background: #1f6feb;
             color: white;
             font-size: 11px;
             font-weight: 700;
@@ -308,17 +397,17 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             letter-spacing: 0.05em;
         }}
         .strength-badge {{
-            background: #f59e0b;
-            color: #0f172a;
+            background: #d29922;
+            color: #0d1117;
             font-weight: 800;
             padding: 4px 12px;
             border-radius: 6px;
             font-size: 12px;
         }}
         .btn-print {{
-            background: #334155;
-            color: #e2e8f0;
-            border: 1px solid #475569;
+            background: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
             padding: 6px 14px;
             border-radius: 6px;
             font-size: 12px;
@@ -327,7 +416,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             transition: all 0.2s;
         }}
         .btn-print:hover {{
-            background: #475569;
+            background: #30363d;
             color: #ffffff;
         }}
         h1 {{
@@ -337,23 +426,23 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             letter-spacing: -0.01em;
         }}
         .section-box {{
-            background: #0f172a;
+            background: #010409;
             border-radius: 8px;
             padding: 18px 20px;
             margin-top: 18px;
-            border: 1px solid #334155;
+            border: 1px solid #21262d;
         }}
         .section-title {{
             font-size: 13px;
             font-weight: 800;
-            color: #38bdf8;
+            color: #58a6ff;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 10px;
         }}
         .discovery-banner {{
-            background: rgba(14, 165, 233, 0.12);
-            border-left: 5px solid #0ea5e9;
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 5px solid #38bdf8;
             padding: 16px 20px;
             border-radius: 6px;
             font-size: 15px;
@@ -370,23 +459,23 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         }}
         @media (max-width: 768px) {{
             .grid-2 {{ grid-template-columns: 1fr; }}
-            .judge-search-bar {{ flex-direction: column; }}
+            .search-input-group {{ flex-direction: column; }}
         }}
         .metric-pill {{
-            background: #1e293b;
+            background: #0d1117;
             padding: 12px 14px;
             border-radius: 6px;
-            border: 1px solid #334155;
+            border: 1px solid #21262d;
         }}
         .metric-val {{
             font-size: 20px;
             font-weight: 800;
-            color: #38bdf8;
+            color: #58a6ff;
             margin-top: 2px;
         }}
         .metric-label {{
             font-size: 10px;
-            color: #94a3b8;
+            color: #8b949e;
             text-transform: uppercase;
             font-weight: 700;
         }}
@@ -397,7 +486,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         @media print {{
             body {{ background: #ffffff; color: #000000; padding: 0; }}
             .container {{ border: none; box-shadow: none; max-width: 100%; padding: 0; background: #ffffff; color: #000000; }}
-            .selector-box, .btn-print {{ display: none; }}
+            .atmos-selector-card, .btn-print {{ display: none; }}
             .section-box, .metric-pill {{ background: #f8fafc; border: 1px solid #cbd5e1; color: #000000; }}
             .discovery-banner {{ background: #f0fdf4; border-left: 5px solid #16a34a; color: #000000; }}
             a {{ color: #2563eb !important; text-decoration: underline !important; }}
@@ -407,73 +496,99 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
 <body>
     <div class="container">
         
-        <!-- Interactive Company Switcher Bar -->
-        <div class="selector-box">
-            <div class="selector-header">
-                <span class="selector-title">Select Company Profile &bull; Track C (FMCG & Retail)</span>
-                <span class="selector-sub">Generic Autonomous Workflow &bull; Instant Switching</span>
-            </div>
+        <!-- Exact ATMOS Selector Top Card (Matches Hackathon UI) -->
+        <div class="atmos-selector-card">
+            <div class="atmos-header-title">ATMOS &mdash; Financial Research Agent</div>
+            <div class="atmos-header-subtitle">Track C &middot; Consumer, FMCG &amp; Retail</div>
             
-            <!-- Group 1: Core Track C -->
-            <div class="group-row">
-                <span class="group-label core">1. Core Track C (FMCG & Retail):</span>
-                <div class="btn-wrap">
-                    <button class="comp-btn active" data-ticker="HINDUNILVR" onclick="switchCompany('HINDUNILVR')">
-                        Hindustan Unilever <span class="sub-tag">(Staples)</span>
-                    </button>
-                    <button class="comp-btn" data-ticker="BRITANNIA" onclick="switchCompany('BRITANNIA')">
-                        Britannia <span class="sub-tag">(Foods)</span>
-                    </button>
-                    <button class="comp-btn" data-ticker="TATACONSUM" onclick="switchCompany('TATACONSUM')">
-                        Tata Consumer <span class="sub-tag">(Beverages)</span>
-                    </button>
-                    <button class="comp-btn" data-ticker="NESTLEIND" onclick="switchCompany('NESTLEIND')">
-                        Nestle India <span class="sub-tag">(Nutrition)</span>
-                    </button>
-                    <button class="comp-btn" data-ticker="DABUR" onclick="switchCompany('DABUR')">
-                        Dabur <span class="sub-tag">(Healthcare)</span>
-                    </button>
-                    <button class="comp-btn" data-ticker="TRENT" onclick="switchCompany('TRENT')">
-                        Trent <span class="sub-tag">(Zudio / Retail)</span>
-                    </button>
+            <div class="select-label">Select a NIFTY 50 company</div>
+            
+            <div class="radio-options">
+                <label class="radio-label">
+                    <input type="radio" name="companyMode" id="radioList" value="list" checked onchange="toggleSelectorMode('list')" />
+                    <span>Choose from the company list</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="companyMode" id="radioSearch" value="search" onchange="toggleSelectorMode('search')" />
+                    <span>Search by company name or NSE symbol</span>
+                </label>
+            </div>
+
+            <!-- Mode 1: Custom Dropdown Menu -->
+            <div id="listModeWrapper" class="dropdown-wrapper">
+                <div class="custom-select-trigger" onclick="toggleDropdown(event)">
+                    <span id="selectedCompanyLabel">{initial_label}</span>
+                    <svg id="chevronIcon" class="chevron-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div id="customDropdownMenu" class="custom-dropdown-menu">
+                    <!-- Core Track C (First 6) -->
+                    <div class="dropdown-category">Core Track C (FMCG &amp; Retail)</div>
+                    <div class="dropdown-item" data-ticker="HINDUNILVR" onclick="selectCompany('HINDUNILVR')">
+                        <span class="check-slot"></span> Hindustan Unilever (HINDUNILVR)
+                    </div>
+                    <div class="dropdown-item" data-ticker="BRITANNIA" onclick="selectCompany('BRITANNIA')">
+                        <span class="check-slot"></span> Britannia Industries (BRITANNIA)
+                    </div>
+                    <div class="dropdown-item" data-ticker="TATACONSUM" onclick="selectCompany('TATACONSUM')">
+                        <span class="check-slot"></span> Tata Consumer Products (TATACONSUM)
+                    </div>
+                    <div class="dropdown-item" data-ticker="NESTLEIND" onclick="selectCompany('NESTLEIND')">
+                        <span class="check-slot"></span> Nestl&eacute; India (NESTLEIND)
+                    </div>
+                    <div class="dropdown-item" data-ticker="DABUR" onclick="selectCompany('DABUR')">
+                        <span class="check-slot"></span> Dabur India (DABUR)
+                    </div>
+                    <div class="dropdown-item" data-ticker="TRENT" onclick="selectCompany('TRENT')">
+                        <span class="check-slot"></span> Trent (TRENT)
+                    </div>
+
+                    <!-- Broader Consumer-Retail (2 Companies) -->
+                    <div class="dropdown-category">Broader Consumer-Retail</div>
+                    <div class="dropdown-item" data-ticker="TITAN" onclick="selectCompany('TITAN')">
+                        <span class="check-slot"></span> Titan Company (TITAN)
+                    </div>
+                    <div class="dropdown-item" data-ticker="ASIANPAINT" onclick="selectCompany('ASIANPAINT')">
+                        <span class="check-slot"></span> Asian Paints (ASIANPAINT)
+                    </div>
+                    <div class="dropdown-item" data-ticker="ITC" onclick="selectCompany('ITC')">
+                        <span class="check-slot"></span> ITC (ITC)
+                    </div>
+
+                    <!-- Non-NIFTY 50 Tie-Breakers (Generic Workflow) -->
+                    <div class="dropdown-category">Non-NIFTY 50 Tie-Breakers (Generic Workflow)</div>
+                    <div class="dropdown-item" data-ticker="V2RETAIL" onclick="selectCompany('V2RETAIL')">
+                        <span class="check-slot"></span> V2 Retail (V2RETAIL)
+                    </div>
+                    <div class="dropdown-item" data-ticker="BIKAJI" onclick="selectCompany('BIKAJI')">
+                        <span class="check-slot"></span> Bikaji Foods (BIKAJI)
+                    </div>
+                    <div class="dropdown-item" data-ticker="DMART" onclick="selectCompany('DMART')">
+                        <span class="check-slot"></span> Avenue Supermarts (DMART)
+                    </div>
                 </div>
             </div>
 
-            <!-- Group 2: Broader Consumer-Retail -->
-            <div class="group-row">
-                <span class="group-label broader">2. Broader Consumer-Retail:</span>
-                <div class="btn-wrap">
-                    <button class="comp-btn broader" data-ticker="TITAN" onclick="switchCompany('TITAN')">
-                        Titan Company <span class="sub-tag">(Jewellery & Watches)</span>
-                    </button>
-                    <button class="comp-btn broader" data-ticker="ASIANPAINT" onclick="switchCompany('ASIANPAINT')">
-                        Asian Paints <span class="sub-tag">(Consumer Decorative)</span>
-                    </button>
+            <!-- Mode 2: Search Input -->
+            <div id="searchModeWrapper" class="search-wrapper" style="display: none;">
+                <div class="search-input-group">
+                    <input type="text" id="judgeSearchInput" class="search-input" placeholder="Search company name or NSE symbol (e.g. DABUR, TITAN, MARICO)..." onkeyup="handleSearchKey(event)" />
+                    <button class="search-btn" onclick="executeSearch()">Investigate 🔍</button>
                 </div>
+                <div id="searchStatus" style="font-size: 11.5px; color: #8b949e; margin-top: 6px;"></div>
             </div>
 
-            <!-- Group 3: On-The-Spot Judge Selection -->
-            <div class="group-row" style="margin-bottom: 0;">
-                <span class="group-label judge">3. On-The-Spot Judge Selection (Generic Workflow & Tie-Breakers):</span>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px;">
-                    <span style="font-size: 11px; color: #94a3b8;">Quick Non-NIFTY 50 Tie-Breakers:</span>
-                    <button class="quick-chip" onclick="switchCompany('V2RETAIL')">V2 Retail (Small-cap Retail)</button>
-                    <button class="quick-chip" onclick="switchCompany('BIKAJI')">Bikaji Foods (Mid-cap FMCG)</button>
-                    <button class="quick-chip" onclick="switchCompany('DMART')">Avenue Supermarts (DMart)</button>
-                </div>
-                <div class="judge-search-bar">
-                    <input type="text" id="judgeInput" class="judge-input" placeholder="Type ANY eligible company ticker (e.g. MARICO, GODREJCP, BATAINDIA)..." />
-                    <button class="btn-investigate" onclick="handleJudgeSearch()">Investigate On-The-Spot 🔍</button>
-                </div>
-                <div id="searchStatus" style="font-size: 11px; color: #94a3b8; margin-top: 4px;"></div>
+            <div class="validation-note">
+                &bull; <strong>Company validation:</strong> check that the chosen company is in the current NIFTY 50 and is eligible under Track C (Consumer, FMCG &amp; Retail). Dynamic research workflow ready for on-the-spot judge evaluation.
             </div>
         </div>
 
-        <!-- Dashboard Header -->
+        <!-- Dashboard Content Header -->
         <div class="header-bar">
             <div>
                 <span class="badge" id="trackBadge">{report.get('track')} &bull; {report.get('business_model')}</span>
-                <span style="font-size: 12px; color: #94a3b8; margin-left: 10px;">Format: {report.get('output_format')}</span>
+                <span style="font-size: 12px; color: #8b949e; margin-left: 10px;">Format: {report.get('output_format')}</span>
             </div>
             <div>
                 <span class="strength-badge" id="evidenceStrengthTop">Evidence: {report.get('element_8_evidence_strength', {}).get('rating', 'Moderate')}</span>
@@ -482,7 +597,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         </div>
 
         <h1 id="companyHeading">{report.get('company_name')} ({report.get('ticker')})</h1>
-        <div style="color: #94a3b8; font-size: 13px;">Autonomous Financial Research Agent &bull; Non-Obvious Contradiction Discovery</div>
+        <div style="color: #8b949e; font-size: 13px;">Autonomous Financial Research Agent &bull; Non-Obvious Contradiction Discovery</div>
 
         <!-- Element 1: The Discovery -->
         <div class="discovery-banner">
@@ -493,7 +608,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         <!-- Element 2: Why It Matters -->
         <div class="section-box">
             <div class="section-title">2. Why It Matters (Operational & Financial Durability)</div>
-            <ul id="whyList" style="margin: 0; padding-left: 20px; line-height: 1.6; color: #cbd5e1; font-size: 14px;">
+            <ul id="whyList" style="margin: 0; padding-left: 20px; line-height: 1.6; color: #c9d1d9; font-size: 14px;">
             </ul>
         </div>
 
@@ -504,12 +619,12 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
                 <div id="metricsGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                 </div>
                 <div id="chartContainer"></div>
-                <div id="mathProvenance" style="margin-top: 10px; font-size: 11px; color: #64748b;"></div>
+                <div id="mathProvenance" style="margin-top: 10px; font-size: 11px; color: #6e7681;"></div>
             </div>
 
             <div class="section-box" style="margin-top: 0;">
                 <div class="section-title">4. Emergence Timeline</div>
-                <ul id="timelineList" style="margin: 0; padding-left: 20px; line-height: 1.5; font-size: 13px; color: #cbd5e1;">
+                <ul id="timelineList" style="margin: 0; padding-left: 20px; line-height: 1.5; font-size: 13px; color: #c9d1d9;">
                 </ul>
             </div>
         </div>
@@ -523,33 +638,33 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         <!-- Elements 6 & 7: Counterargument & Falsification Condition -->
         <div class="grid-2">
             <div class="section-box">
-                <div class="section-title" style="color: #f87171;">6. Strongest Counterargument (Red Team Adversary)</div>
-                <p id="counterargumentText" style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #e2e8f0;"></p>
+                <div class="section-title" style="color: #f85149;">6. Strongest Counterargument (Red Team Adversary)</div>
+                <p id="counterargumentText" style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #e6edf3;"></p>
             </div>
 
             <div class="section-box">
-                <div class="section-title" style="color: #4ade80;">7. Falsification Condition (Specific & Measurable)</div>
-                <p id="falsificationText" style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #e2e8f0;"></p>
+                <div class="section-title" style="color: #3fb950;">7. Falsification Condition (Specific & Measurable)</div>
+                <p id="falsificationText" style="margin: 0; font-size: 13.5px; line-height: 1.6; color: #e6edf3;"></p>
             </div>
         </div>
 
         <!-- Element 8: Evidence Strength & Rubric Breakdown -->
         <div class="section-box">
-            <div class="section-title" style="color: #fbbf24;">8. Evidence Strength & Forensic Rubric Breakdown</div>
+            <div class="section-title" style="color: #d29922;">8. Evidence Strength & Forensic Rubric Breakdown</div>
             <div style="margin-bottom: 12px;">
                 <span class="strength-badge" id="evidenceStrengthRating"></span>
             </div>
             <table style="margin-bottom: 14px;">
                 <thead>
-                    <tr style="border-bottom: 2px solid #334155; text-align: left;">
-                        <th style="padding: 8px 12px; font-size: 11px; color: #38bdf8; text-transform: uppercase;">Rubric Dimension</th>
-                        <th style="padding: 8px 12px; font-size: 11px; color: #38bdf8; text-transform: uppercase;">Confidence Level</th>
-                        <th style="padding: 8px 12px; font-size: 11px; color: #38bdf8; text-transform: uppercase;">Empirical Evidence</th>
+                    <tr style="border-bottom: 2px solid #21262d; text-align: left;">
+                        <th style="padding: 8px 12px; font-size: 11px; color: #58a6ff; text-transform: uppercase;">Rubric Dimension</th>
+                        <th style="padding: 8px 12px; font-size: 11px; color: #58a6ff; text-transform: uppercase;">Confidence Level</th>
+                        <th style="padding: 8px 12px; font-size: 11px; color: #58a6ff; text-transform: uppercase;">Empirical Evidence</th>
                     </tr>
                 </thead>
                 <tbody id="rubricTableBody"></tbody>
             </table>
-            <p id="synthesisRationale" style="margin: 0; font-size: 12.5px; line-height: 1.6; color: #cbd5e1;"></p>
+            <p id="synthesisRationale" style="margin: 0; font-size: 12.5px; line-height: 1.6; color: #c9d1d9;"></p>
         </div>
 
         <!-- Section E: Autonomous Reasoning Pipeline -->
@@ -558,7 +673,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             <div id="reasoningGrid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;"></div>
         </div>
 
-        <div style="margin-top: 24px; text-align: center; font-size: 11px; color: #64748b;">
+        <div style="margin-top: 24px; text-align: center; font-size: 11px; color: #6e7681;">
             ATMOS 2026 Autonomous Research Agent &bull; 100% Public Data &bull; Zero Hardcoding &bull; Zero Investment Advice
         </div>
     </div>
@@ -566,7 +681,121 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
     <!-- Client-side Switcher Logic -->
     <script>
         const ALL_REPORTS = {json_payload};
+        const DISPLAY_NAMES = {json.dumps(disp_names)};
         let currentTicker = "{default_ticker}";
+
+        function toggleSelectorMode(mode) {{
+            const listWrapper = document.getElementById("listModeWrapper");
+            const searchWrapper = document.getElementById("searchModeWrapper");
+            if (mode === "search") {{
+                listWrapper.style.display = "none";
+                searchWrapper.style.display = "block";
+                document.getElementById("judgeSearchInput").focus();
+            }} else {{
+                listWrapper.style.display = "block";
+                searchWrapper.style.display = "none";
+            }}
+        }}
+
+        function toggleDropdown(e) {{
+            if (e) e.stopPropagation();
+            const menu = document.getElementById("customDropdownMenu");
+            const icon = document.getElementById("chevronIcon");
+            menu.classList.toggle("show");
+            icon.classList.toggle("open");
+        }}
+
+        function closeDropdown() {{
+            const menu = document.getElementById("customDropdownMenu");
+            const icon = document.getElementById("chevronIcon");
+            if (menu) menu.classList.remove("show");
+            if (icon) icon.classList.remove("open");
+        }}
+
+        window.addEventListener("click", (e) => {{
+            if (!e.target.closest(".dropdown-wrapper")) {{
+                closeDropdown();
+            }}
+        }});
+
+        function selectCompany(ticker) {{
+            ticker = ticker.toUpperCase().trim();
+            closeDropdown();
+            if (ALL_REPORTS[ticker]) {{
+                currentTicker = ticker;
+                const labelText = DISPLAY_NAMES[ticker] || `${{ALL_REPORTS[ticker].company_name}} (${{ticker}})`;
+                document.getElementById("selectedCompanyLabel").textContent = labelText;
+
+                // Update active state in menu
+                document.querySelectorAll(".dropdown-item").forEach(item => {{
+                    const itemTicker = item.getAttribute("data-ticker");
+                    const checkSlot = item.querySelector(".check-slot");
+                    if (itemTicker === ticker) {{
+                        item.classList.add("active");
+                        if (checkSlot) checkSlot.textContent = "✓";
+                    }} else {{
+                        item.classList.remove("active");
+                        if (checkSlot) checkSlot.textContent = "";
+                    }}
+                }});
+
+                renderReport(ALL_REPORTS[ticker]);
+            }}
+        }}
+
+        function handleSearchKey(event) {{
+            if (event.key === "Enter") {{
+                executeSearch();
+            }}
+        }}
+
+        async function executeSearch() {{
+            const input = document.getElementById("judgeSearchInput");
+            const query = (input.value || "").toUpperCase().trim();
+            if (!query) return;
+
+            const status = document.getElementById("searchStatus");
+
+            // Check if matches a known ticker directly or by partial name
+            let matchedTicker = null;
+            if (ALL_REPORTS[query]) {{
+                matchedTicker = query;
+            }} else {{
+                for (const [t, data] of Object.entries(ALL_REPORTS)) {{
+                    const name = (data.company_name || "").toUpperCase();
+                    if (t === query || name.includes(query)) {{
+                        matchedTicker = t;
+                        break;
+                    }}
+                }}
+            }}
+
+            if (matchedTicker) {{
+                selectCompany(matchedTicker);
+                status.innerHTML = `Loaded profile for <strong>${{matchedTicker}}</strong>.`;
+                return;
+            }}
+
+            status.innerHTML = `⏳ Connecting to public filings for <strong>${{query}}</strong> via generic workflow...`;
+
+            try {{
+                const resp = await fetch(`/api/investigate?ticker=${{query}}`);
+                if (resp.ok) {{
+                    const data = await resp.json();
+                    if (data.error) {{
+                        status.textContent = `❌ ${{data.error}}`;
+                    }} else {{
+                        ALL_REPORTS[query] = data;
+                        DISPLAY_NAMES[query] = `${{data.company_name}} (${{query}})`;
+                        selectCompany(query);
+                        status.innerHTML = `✅ Successfully investigated <strong>${{query}}</strong> on the spot!`;
+                    }}
+                    return;
+                }}
+            }} catch (e) {{
+                status.innerHTML = `Offline mode: To run on-the-spot for <strong>${{query}}</strong>, execute <code>python3 main.py ${{query}}</code> in your terminal or start <code>python3 server.py</code>!`;
+            }}
+        }}
 
         function generateSvg(chartData) {{
             const quarters = chartData.quarters || [];
@@ -618,7 +847,6 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
         function renderReport(report) {{
             if (!report) return;
 
-            // Header info
             document.getElementById("trackBadge").textContent = `${{report.track}} • ${{report.business_model}}`;
             document.getElementById("companyHeading").textContent = `${{report.company_name}} (${{report.ticker}})`;
 
@@ -678,17 +906,17 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             const evidenceContainer = document.getElementById("evidenceContainer");
             const evidenceList = report.element_5_evidence_trail || report.element_3_evidence || [];
             evidenceContainer.innerHTML = evidenceList.map(s => `
-                <div style="margin-bottom: 14px; padding: 14px; background: #0f172a; border-left: 4px solid #38bdf8; border-radius: 6px; border: 1px solid #334155;">
+                <div style="margin-bottom: 14px; padding: 14px; background: #010409; border-left: 4px solid #38bdf8; border-radius: 6px; border: 1px solid #21262d;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-weight: 700; color: #38bdf8; font-size: 12px; text-transform: uppercase;">${{s.source_type || 'Primary Document'}}</span>
-                        <span style="background: #1e293b; color: #94a3b8; font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #334155;">${{s.publication_date || ''}}</span>
+                        <span style="font-weight: 700; color: #58a6ff; font-size: 12px; text-transform: uppercase;">${{s.source_type || 'Primary Document'}}</span>
+                        <span style="background: #161b22; color: #8b949e; font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #30363d;">${{s.publication_date || ''}}</span>
                     </div>
                     <div style="color: #ffffff; font-weight: 600; font-size: 14px;">${{s.document_title || s.title || ''}}</div>
-                    <div style="color: #94a3b8; font-size: 12px; margin-top: 3px;"><strong>Section/Page:</strong> ${{s.section_or_page || 'Consolidated Filings'}}</div>
-                    <div style="background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 4px; margin-top: 6px; font-size: 12.5px; color: #cbd5e1; border-left: 2px solid #64748b;">
+                    <div style="color: #8b949e; font-size: 12px; margin-top: 3px;"><strong>Section/Page:</strong> ${{s.section_or_page || 'Consolidated Filings'}}</div>
+                    <div style="background: rgba(13, 17, 23, 0.8); padding: 8px 12px; border-radius: 4px; margin-top: 6px; font-size: 12.5px; color: #c9d1d9; border-left: 2px solid #30363d;">
                         <strong>Exact Figure / Passage:</strong> ${{s.exact_figure_or_passage || s.data_covered || ''}}
                     </div>
-                    <a href="${{s.source_link || s.url}}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #60a5fa; text-decoration: none; font-weight: 600;">
+                    <a href="${{s.source_link || s.url}}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #58a6ff; text-decoration: none; font-weight: 600;">
                         Verify Primary Document &rarr;
                     </a>
                 </div>
@@ -707,10 +935,10 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             for (const [dim, info] of Object.entries(breakdown)) {{
                 const label = dim.replace(/_/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
                 rubricHtml += `
-                <tr style="border-bottom: 1px solid #334155;">
-                    <td style="padding: 8px 12px; color: #94a3b8; font-size: 12px; font-weight: 500;">${{label}}</td>
-                    <td style="padding: 8px 12px; color: #38bdf8; font-size: 12px; font-weight: 600;">${{info.score || ''}}</td>
-                    <td style="padding: 8px 12px; color: #cbd5e1; font-size: 11.5px;">${{info.detail || ''}}</td>
+                <tr style="border-bottom: 1px solid #21262d;">
+                    <td style="padding: 8px 12px; color: #8b949e; font-size: 12px; font-weight: 500;">${{label}}</td>
+                    <td style="padding: 8px 12px; color: #58a6ff; font-size: 12px; font-weight: 600;">${{info.score || ''}}</td>
+                    <td style="padding: 8px 12px; color: #c9d1d9; font-size: 11.5px;">${{info.detail || ''}}</td>
                 </tr>`;
             }}
             rubricTableBody.innerHTML = rubricHtml;
@@ -718,70 +946,16 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
             // Section E Reasoning
             const reasoningGrid = document.getElementById("reasoningGrid");
             reasoningGrid.innerHTML = (report.reasoning_process || []).map(r => `
-                <div style="background: #1e293b; border-radius: 6px; padding: 10px 12px; border: 1px solid #334155;">
-                    <div style="font-size: 10px; text-transform: uppercase; color: #38bdf8; font-weight: 700;">Step ${{r.step}}: ${{r.name}}</div>
-                    <div style="font-size: 12px; color: #cbd5e1; margin-top: 3px; line-height: 1.35;">${{r.description}}</div>
+                <div style="background: #010409; border-radius: 6px; padding: 10px 12px; border: 1px solid #21262d;">
+                    <div style="font-size: 10px; text-transform: uppercase; color: #58a6ff; font-weight: 700;">Step ${{r.step}}: ${{r.name}}</div>
+                    <div style="font-size: 12px; color: #c9d1d9; margin-top: 3px; line-height: 1.35;">${{r.description}}</div>
                 </div>
             `).join("");
         }}
 
-        function switchCompany(ticker) {{
-            ticker = ticker.toUpperCase().trim();
-            if (ALL_REPORTS[ticker]) {{
-                currentTicker = ticker;
-                renderReport(ALL_REPORTS[ticker]);
-
-                // Update active button state
-                document.querySelectorAll(".comp-btn").forEach(btn => {{
-                    if (btn.getAttribute("data-ticker") === ticker) {{
-                        btn.classList.add("active");
-                    }} else {{
-                        btn.classList.remove("active");
-                    }}
-                }});
-
-                document.getElementById("searchStatus").textContent = `Active Profile: ${{ticker}}`;
-            }} else {{
-                document.getElementById("searchStatus").innerHTML = `Profile for ${{ticker}} not in offline cache. Use 'Investigate On-The-Spot' or run <code>python3 main.py ${{ticker}}</code> in terminal.`;
-            }}
-        }}
-
-        async function handleJudgeSearch() {{
-            const input = document.getElementById("judgeInput");
-            const ticker = (input.value || "").toUpperCase().trim();
-            if (!ticker) return;
-
-            const status = document.getElementById("searchStatus");
-            if (ALL_REPORTS[ticker]) {{
-                switchCompany(ticker);
-                return;
-            }}
-
-            status.innerHTML = `⏳ Connecting to public filings for <strong>${{ticker}}</strong> via generic workflow...`;
-
-            try {{
-                // Try live local server API
-                const resp = await fetch(`/api/investigate?ticker=${{ticker}}`);
-                if (resp.ok) {{
-                    const data = await resp.json();
-                    if (data.error) {{
-                        status.textContent = `❌ ${{data.error}}`;
-                    }} else {{
-                        ALL_REPORTS[ticker] = data;
-                        renderReport(data);
-                        status.innerHTML = `✅ Successfully investigated <strong>${{ticker}}</strong> on the spot!`;
-                    }}
-                    return;
-                }}
-            }} catch (e) {{
-                // Server not active, instruct judge/user
-                status.innerHTML = `Offline mode: To run on-the-spot for <strong>${{ticker}}</strong>, execute <code>python3 main.py ${{ticker}}</code> in your terminal or start <code>python3 server.py</code>!`;
-            }}
-        }}
-
         // Initialize on page load
         window.addEventListener("DOMContentLoaded", () => {{
-            renderReport(ALL_REPORTS[currentTicker]);
+            selectCompany(currentTicker);
         }});
     </script>
 </body>
@@ -789,7 +963,7 @@ def generate_unified_html(all_reports: dict, default_ticker: str, filepath: str)
 """
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(html)
-    print(f"[+] Multi-Company Interactive Dashboard saved: {os.path.abspath(filepath)}")
+    print(f"[+] ATMOS Interactive Dashboard saved: {os.path.abspath(filepath)}")
 
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--serve":
@@ -797,7 +971,7 @@ def main():
         run_server()
         return
 
-    ticker = sys.argv[1] if len(sys.argv) > 1 else "HINDUNILVR"
+    ticker = sys.argv[1] if len(sys.argv) > 1 else "TRENT"
     ticker = ticker.upper().strip()
 
     if ticker == "--ALL":
@@ -805,7 +979,7 @@ def main():
         print("  ARGUS: PRE-COMPUTING ALL 8 TRACK C & BROADER CONSUMER PROFILES")
         print("=" * 85)
         all_reps = load_or_fetch_all_reports()
-        generate_unified_html(all_reps, "HINDUNILVR", "dashboard.html")
+        generate_unified_html(all_reps, "TRENT", "dashboard.html")
         return
 
     print_banner(ticker)
@@ -887,7 +1061,7 @@ def main():
     print("=" * 85)
     print(f"[+] Output JSON saved: {os.path.abspath(json_path)}")
     print(f"[+] Individual Company Dashboard: {os.path.abspath(html_path)}")
-    print(f"[+] Unified Multi-Company Dashboard: {os.path.abspath('dashboard.html')}")
+    print(f"[+] Unified ATMOS Dashboard: {os.path.abspath('dashboard.html')}")
     print("=" * 85)
 
 if __name__ == "__main__":
