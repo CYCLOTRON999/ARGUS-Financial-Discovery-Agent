@@ -151,9 +151,14 @@ class FinancialInvestigator:
 
         timeline_entries = []
         for y in latest_sales_yoy:
+            growth_val = y['yoy_growth_pct']
+            growth_str = f"+{growth_val:.2f}%" if growth_val >= 0 else f"{growth_val:.2f}%"
             timeline_entries.append(
-                f"{y['quarter']}: Reported Sales ₹{y['current_sales_cr']:,.0f} Cr (+{y['yoy_growth_pct']}% YoY)"
+                f"{y['quarter']}: Reported Sales ₹{y['current_sales_cr']:,.0f} Cr ({growth_str} YoY)"
             )
+
+        avg_yoy_str = f"+{avg_yoy:.1f}%" if avg_yoy >= 0 else f"{avg_yoy:.1f}%"
+        rev_trend = "revenue expansion" if avg_yoy >= 0 else "revenue contraction"
 
         if not is_retail:
             # FMCG Mode: Evaluate DSO vs DIO vs Price/Volume
@@ -174,7 +179,7 @@ class FinancialInvestigator:
             if channel_anomaly.get("anomaly_detected"):
                 # Case 1: Ballooning DSO (Channel Stuffing)
                 discovery_text = (
-                    f"{self.harvester.company_name} reports headline revenue expansion (+{avg_yoy}% YoY), "
+                    f"{self.harvester.company_name} reports headline {rev_trend} ({avg_yoy_str} YoY), "
                     f"yet underlying distributor receivable days expanded by +{dso_delta:.1f} days (from {start_dso:.1f} to {recent_dso:.1f} days), "
                     f"pointing to extended trade credit terms and mounting inventory absorption pressure in the retail distribution pipeline."
                 )
@@ -202,7 +207,7 @@ class FinancialInvestigator:
             elif inventory_anomaly.get("anomaly_detected"):
                 # Case 2: Ballooning DIO (Factory / Finished Goods Inventory Build-up)
                 discovery_text = (
-                    f"{self.harvester.company_name} maintains headline revenue growth (+{avg_yoy}% YoY) and tight distributor credit ({recent_dso:.1f} DSO days), "
+                    f"{self.harvester.company_name} maintains headline {rev_trend} ({avg_yoy_str} YoY) and tight distributor credit ({recent_dso:.1f} DSO days), "
                     f"yet factory and warehouse inventory days expanded by +{dio_delta:.1f} days (from {start_dio:.1f} to {recent_dio:.1f} days), "
                     f"signaling finished goods and raw material accumulation in corporate warehouses as primary production outpaces retail off-take."
                 )
@@ -230,7 +235,7 @@ class FinancialInvestigator:
             else:
                 # Case 3: Price-Led Growth & Margin Elasticity
                 discovery_text = (
-                    f"{self.harvester.company_name} reports headline revenue expansion (+{avg_yoy}% YoY), "
+                    f"{self.harvester.company_name} reports headline {rev_trend} ({avg_yoy_str} YoY), "
                     f"yet underlying growth is predominantly carried by realization and defensive pricing adjustments while working capital remains tightly managed, "
                     f"indicating that top-line performance is testing consumer price elasticity limits amid sluggish real volume absorption."
                 )
@@ -276,7 +281,7 @@ class FinancialInvestigator:
             }
 
             discovery_text = (
-                f"{self.harvester.company_name} presents strong aggregate revenue expansion (+{avg_yoy}% YoY), "
+                f"{self.harvester.company_name} presents strong aggregate revenue expansion ({avg_yoy_str} YoY), "
                 f"yet growth is overwhelmingly propelled by aggressive new store footprint additions while network inventory expanded +{inv_growth}% "
                 f"(reaching ₹{recent_inv:,.0f} Cr), indicating that top-line acceleration masks maturing sales productivity across legacy flagship locations."
             )

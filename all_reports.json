@@ -73,7 +73,7 @@
       "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited filings and schedules."
     },
     "element_4_timeline": [
-      "Sep 2025: Reported Sales \u20b915,919 Cr (+-0.04% YoY)",
+      "Sep 2025: Reported Sales \u20b915,919 Cr (-0.04% YoY)",
       "Dec 2025: Reported Sales \u20b916,441 Cr (+5.69% YoY)",
       "Mar 2026: Reported Sales \u20b916,351 Cr (+7.64% YoY)",
       "Jun 2026: Reported Sales \u20b917,341 Cr (+10.05% YoY)",
@@ -2114,7 +2114,7 @@
         -11.08
       ]
     },
-    "element_1_the_discovery": "ITC Ltd maintains headline revenue growth (+-3.0% YoY) and tight distributor credit (18.2 DSO days), yet factory and warehouse inventory days expanded by +36.8 days (from 95.0 to 131.8 days), signaling finished goods and raw material accumulation in corporate warehouses as primary production outpaces retail off-take.",
+    "element_1_the_discovery": "ITC Ltd maintains headline revenue contraction (-3.0% YoY) and tight distributor credit (18.2 DSO days), yet factory and warehouse inventory days expanded by +36.8 days (from 95.0 to 131.8 days), signaling finished goods and raw material accumulation in corporate warehouses as primary production outpaces retail off-take.",
     "element_2_why_it_matters": [
       "Inventory holding period rose to 131.8 days (+36.8 days), locking up operating cash flow in unsold factory stock.",
       "While distributor receivable discipline remains intact (18.2 days), warehouse inventory build-up increases carrying costs and markdown risks.",
@@ -2135,10 +2135,10 @@
       "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited filings and schedules."
     },
     "element_4_timeline": [
-      "Sep 2025: Reported Sales \u20b919,502 Cr (+-2.44% YoY)",
+      "Sep 2025: Reported Sales \u20b919,502 Cr (-2.44% YoY)",
       "Dec 2025: Reported Sales \u20b920,047 Cr (+6.69% YoY)",
-      "Mar 2026: Reported Sales \u20b917,825 Cr (+-5.01% YoY)",
-      "Jun 2026: Reported Sales \u20b919,114 Cr (+-11.08% YoY)",
+      "Mar 2026: Reported Sales \u20b917,825 Cr (-5.01% YoY)",
+      "Jun 2026: Reported Sales \u20b919,114 Cr (-11.08% YoY)",
       "Inventory Velocity Shift: DIO expanded from 95.0 days (Mar 2023) to 131.8 days (Mar 2026) (+36.8 days)"
     ],
     "element_5_evidence_trail": [

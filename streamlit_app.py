@@ -3,6 +3,7 @@ import json
 import os
 import time
 import pandas as pd
+import altair as alt
 from typing import Dict, Any, Optional
 
 # Set Page Config
@@ -489,15 +490,71 @@ if report:
                     "Quarter": quarters,
                     "Sales (₹ Cr)": sales_cr,
                     "YoY Growth (%)": yoy_pct
-                }).set_index("Quarter")
+                })
 
                 c_chart1, c_chart2 = st.columns(2)
                 with c_chart1:
                     st.caption("📈 Reported Quarterly Revenue (₹ Crores)")
-                    st.bar_chart(chart_df["Sales (₹ Cr)"], color="#0284c7")
+                    base_bar = alt.Chart(chart_df).encode(
+                        x=alt.X("Quarter:N", sort=quarters, axis=alt.Axis(labelAngle=0, title=None, labelColor="#cbd5e1", labelFontSize=11))
+                    )
+                    bar = base_bar.mark_bar(cornerRadiusTopLeft=5, cornerRadiusTopRight=5, color="#0284c7").encode(
+                        y=alt.Y("Sales (₹ Cr):Q", axis=alt.Axis(title="Sales (₹ Cr)", titleColor="#94a3b8", labelColor="#94a3b8")),
+                        tooltip=[
+                            alt.Tooltip("Quarter:N", title="Quarter"),
+                            alt.Tooltip("Sales (₹ Cr):Q", format=",.0f", title="Sales (₹ Cr)")
+                        ]
+                    )
+                    text_bar = base_bar.mark_text(
+                        align="center",
+                        baseline="bottom",
+                        dy=-4,
+                        color="#e2e8f0",
+                        fontSize=11,
+                        fontWeight=600
+                    ).encode(
+                        y=alt.Y("Sales (₹ Cr):Q"),
+                        text=alt.Text("Sales (₹ Cr):Q", format=",.0f")
+                    )
+                    st.altair_chart((bar + text_bar).properties(height=260), use_container_width=True)
+
                 with c_chart2:
                     st.caption("📊 YoY Growth Rate (%)")
-                    st.line_chart(chart_df["YoY Growth (%)"], color="#16a34a")
+                    base_line = alt.Chart(chart_df).encode(
+                        x=alt.X("Quarter:N", sort=quarters, axis=alt.Axis(labelAngle=0, title=None, labelColor="#cbd5e1", labelFontSize=11))
+                    )
+                    min_y = min(yoy_pct) if yoy_pct else 0
+                    max_y = max(yoy_pct) if yoy_pct else 10
+                    y_padding = max(3.0, (max_y - min_y) * 0.25)
+                    y_domain = [min(0, min_y - y_padding), max_y + y_padding]
+
+                    line = base_line.mark_line(color="#10b981", strokeWidth=3).encode(
+                        y=alt.Y("YoY Growth (%):Q", scale=alt.Scale(domain=y_domain), axis=alt.Axis(title="YoY Growth (%)", titleColor="#94a3b8", labelColor="#94a3b8")),
+                        tooltip=[
+                            alt.Tooltip("Quarter:N", title="Quarter"),
+                            alt.Tooltip("YoY Growth (%):Q", format="+.2f", title="YoY Growth (%)")
+                        ]
+                    )
+                    points = base_line.mark_circle(size=70, color="#10b981").encode(
+                        y=alt.Y("YoY Growth (%):Q"),
+                        tooltip=[
+                            alt.Tooltip("Quarter:N", title="Quarter"),
+                            alt.Tooltip("YoY Growth (%):Q", format="+.2f", title="YoY Growth (%)")
+                        ]
+                    )
+                    text_line = base_line.mark_text(
+                        align="center",
+                        baseline="bottom",
+                        dy=-8,
+                        color="#6ee7b7",
+                        fontSize=11,
+                        fontWeight=700
+                    ).encode(
+                        y=alt.Y("YoY Growth (%):Q"),
+                        text=alt.Text("YoY Growth (%):Q", format="+.1f")
+                    )
+                    zero_rule = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(color="#64748b", strokeDash=[3, 3]).encode(y="y:Q")
+                    st.altair_chart((zero_rule + line + points + text_line).properties(height=260), use_container_width=True)
 
             st.markdown(f"<span style='font-size: 11px; color: #64748b;'><em>Provenance: {numbers.get('calculation_provenance', 'Python FinancialCalculator')}</em></span>", unsafe_allow_html=True)
 

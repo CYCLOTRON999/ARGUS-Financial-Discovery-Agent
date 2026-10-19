@@ -72,7 +72,7 @@
     "calculation_provenance": "Computed deterministically via Python FinancialCalculator from audited filings and schedules."
   },
   "element_4_timeline": [
-    "Sep 2025: Reported Sales \u20b915,919 Cr (+-0.04% YoY)",
+    "Sep 2025: Reported Sales \u20b915,919 Cr (-0.04% YoY)",
     "Dec 2025: Reported Sales \u20b916,441 Cr (+5.69% YoY)",
     "Mar 2026: Reported Sales \u20b916,351 Cr (+7.64% YoY)",
     "Jun 2026: Reported Sales \u20b917,341 Cr (+10.05% YoY)",
